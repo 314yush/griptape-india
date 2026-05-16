@@ -1,0 +1,19 @@
+---
+description: Keep /apply login as Supabase Phone SMS (signInWithOtp + verifyOtp)
+globs: app/apply/**/*, lib/phone-auth-log.ts, lib/supabase-browser.ts, app/apply/page.tsx
+---
+
+# Apply flow — phone authentication
+
+The working login path **must** stay:
+
+1. **`SignInWithOtp`** in `ApplyClient.tsx` uses the browser Supabase client only:
+   - `auth.signInWithOtp({ phone: E.164, options: { channel: "sms", data: { full_name, phone_e164 } } })`
+   - `auth.verifyOtp({ phone: E.164, token, type: "sms" })`
+   - then `auth.getUser()` and `onAuthed`.
+
+2. **Do not** reintroduce custom `/api/auth/otp/*` routes or `SMS_HTTP_URL` for primary login unless explicitly requested. Delivery is **Supabase Dashboard → Authentication → Phone** (e.g. Twilio).
+
+3. **Server `app/apply/page.tsx`** loads or creates `applications` from the authenticated `user`; keep `rowEmail` / `rowMobile` aligned with `user.phone` and `user_metadata.phone_e164` after phone OTP.
+
+4. Preserve **`logPhoneAuthFailure`** / **`[phone-auth]`** console logging when touching this flow.
