@@ -6,7 +6,7 @@ import "./griptape-landing.css";
 
 export const metadata: Metadata = {
   title:
-    "Apply — Griptape India Learning Challenge | Pan-India non-profit for ages 14–19",
+    "Apply — Griptape India Learning Challenge | India non-profit for ages 14–19",
   description:
     "Apply to the free Learning Challenge: 10 weeks, one pursuit you choose, a Champion mentor, peer tribe, and proof you can build it. Griptape India began in Bangalore and works with young people across India, inspired by GripTape, USA.",
 };
@@ -106,7 +106,7 @@ export default function HomePage() {
             first-gen learners welcome ✿
           </div>
           <div className="sticker s2">14 – 19 yrs ★</div>
-          <div className="sticker s3">Pan-India · began in Bangalore</div>
+          <div className="sticker s3">India · began in Bangalore</div>
           <div className="sticker s4" style={{ bottom: 200, right: "4%" }}>
             no curriculum. no exam.
           </div>
@@ -149,7 +149,7 @@ export default function HomePage() {
           <div className="container">
             <span className="eyebrow">⌁ about griptape india</span>
             <h2 className="section-title">
-              A pan-India <em className="serif">non-profit</em> for young people
+              A <em className="serif">non-profit</em> for young people in India
               who want to build something real.
             </h2>
             <div className="about-ngo-grid">
@@ -412,7 +412,7 @@ export default function HomePage() {
                   </li>
                   <li>
                     <strong>~15 learners</strong> per cohort · ages 14–19 ·
-                    pan-India
+                    India
                   </li>
                   <li>
                     <strong>~80%</strong> from government schools · 20% from
@@ -624,7 +624,7 @@ export default function HomePage() {
             <div>
               <h5>Find us</h5>
               <ul>
-                <li>Pan-India · began in Bangalore</li>
+                <li>India · began in Bangalore</li>
                 <li>
                   <a href="mailto:hello@griptape.in">hello@griptape.in</a>
                 </li>

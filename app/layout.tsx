@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     template: "%s · Griptape India",
   },
   description:
-    "Griptape India is a pan-India non-profit, started in Bangalore, helping young people (14–19) find a pursuit worth chasing — with trust, tribe, and proof.",
+    "Griptape India is a non-profit, started in Bangalore, helping young people (14–19) across India find a pursuit worth chasing — with trust, tribe, and proof.",
 };
 
 export default function RootLayout({
