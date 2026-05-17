@@ -1,4 +1,4 @@
-import type { CookieOptions } from "@supabase/ssr";
+import type { CookieOptions, SetAllCookies } from "@supabase/ssr";
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { buildSubmittedMessage } from "@/lib/auth-messages";
@@ -21,13 +21,7 @@ export async function POST(request: NextRequest) {
         getAll() {
           return request.cookies.getAll();
         },
-        setAll(
-          cookiesToSet: {
-            name: string;
-            value: string;
-            options: CookieOptions;
-          }[]
-        ) {
+        setAll(cookiesToSet: Parameters<SetAllCookies>[0]) {
           pendingCookies.push(...cookiesToSet);
         },
       },
