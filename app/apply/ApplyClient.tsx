@@ -171,22 +171,22 @@ export default function ApplyClient({
         </Link>
         <ul>
           <li>
-            <Link href="/">Home</Link>
+            <Link href="/#about-ngo">About</Link>
           </li>
           <li>
-            <Link href="/about">About</Link>
-          </li>
-          <li>
-            <Link href="/the-challenge">The Challenge</Link>
+            <Link href="/#learning-challenge">The Challenge</Link>
           </li>
           <li>
             <Link href="/#stories">Stories</Link>
           </li>
-          <li>
-            <Link href="/#plug-in">Get Involved</Link>
-          </li>
         </ul>
         <div className="apply-top-actions">
+          <Link href="/apply" className="btn btn-primary nav-btn">
+            Apply
+          </Link>
+          <Link href="/#fund" className="btn btn-secondary nav-btn">
+            Support
+          </Link>
           {user && (
             <button type="button" className="logout" onClick={handleLogout}>
               Log out

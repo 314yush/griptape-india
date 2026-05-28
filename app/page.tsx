@@ -42,7 +42,7 @@ export default function HomePage() {
                 fontStyle: "italic",
                 fontWeight: 400,
                 opacity: 0.6,
-                fontSize: 16,
+                fontSize: 21,
                 marginLeft: 2,
               }}
             >
@@ -51,9 +51,6 @@ export default function HomePage() {
           </Link>
           <ul className="nav-links-desktop">
             <li>
-              <Link href="/apply">Apply</Link>
-            </li>
-            <li>
               <a href="#about-ngo">About</a>
             </li>
             <li>
@@ -61,9 +58,6 @@ export default function HomePage() {
             </li>
             <li>
               <a href="#stories">Stories</a>
-            </li>
-            <li>
-              <a href="#fund">Support</a>
             </li>
           </ul>
           <details className="nav-mobile-menu">
@@ -74,9 +68,6 @@ export default function HomePage() {
             <div className="nav-mobile-panel">
               <ul className="nav-mobile-list">
                 <li>
-                  <Link href="/apply">Apply</Link>
-                </li>
-                <li>
                   <a href="#about-ngo">About</a>
                 </li>
                 <li>
@@ -85,57 +76,49 @@ export default function HomePage() {
                 <li>
                   <a href="#stories">Stories</a>
                 </li>
-                <li>
-                  <a href="#fund">Support</a>
-                </li>
               </ul>
             </div>
           </details>
           <div className="nav-cta-group">
-            <Link href="/apply" className="apply-btn">
-              Apply →
+            <Link href="/apply" className="btn btn-primary nav-btn">
+              Apply
             </Link>
+            <a href="#fund" className="btn btn-secondary nav-btn">
+              Support
+            </a>
           </div>
         </nav>
 
         <header className="hero">
-          <span className="mascot-img mascot-float m1" aria-hidden="true" />
-          <span className="mascot-img mascot-float m2" aria-hidden="true" />
-
-          <div className="sticker s1" style={{ top: 70, left: "18%" }}>
-            first-gen learners welcome ✿
-          </div>
-          <div className="sticker s2">14 – 19 yrs ★</div>
-          <div className="sticker s3">India · began in Bangalore</div>
-          <div className="sticker s4" style={{ bottom: 200, right: "4%" }}>
-            no curriculum. no exam.
+          <div className="hero-decor" aria-hidden="true">
+            <span className="mascot-img mascot-float m1" />
+            <span className="mascot-img mascot-float m2" />
+            <div className="sticker s1">first-gen learners welcome ✿</div>
+            <div className="sticker s2">14 – 19 yrs ★</div>
+            <div className="sticker s3">India · began in Bangalore</div>
+            <div className="sticker s4">no curriculum. no exam.</div>
           </div>
 
-          <p className="kicker">⤿ an NGO trusting young people in India</p>
-          <h1>
-            Pick <span className="y">one thing</span> you care about.
-            <br />
-            <span className="underline">Prove you can do it.</span>
-          </h1>
-          <p className="sub">
-            We began in Bangalore; today Griptape India works with young people
-            (14–19) across the country. We exist to give them the time, the
-            tribe, and the support to find a calling worth chasing — and the
-            proof that they can. We run programs. We back learners. We&apos;re
-            just getting started.
-          </p>
-          <div className="ctas">
-            <Link href="/apply" className="btn btn-primary">
-              Apply for the Learning Challenge →
-            </Link>
-            <a href="#learning-challenge" className="btn btn-secondary">
-              See how it works
-            </a>
+          <div className="hero-inner">
+            <p className="kicker">⤿ you don&apos;t need a perfect plan!</p>
+            <h1>
+              <span className="y">Find what matters to you</span>.
+              <br />
+              <span className="underline">Build it with us.</span>
+            </h1>
+            <p className="sub">
+              At Griptape, learners don&apos;t wait for permission — they learn,
+              fail, iterate, and build again.
+            </p>
+            <div className="ctas">
+              <Link href="/apply" className="btn btn-primary">
+                Apply →
+              </Link>
+              <a href="#fund" className="btn btn-secondary">
+                Support
+              </a>
+            </div>
           </div>
-          <p className="hero-support-hint">
-            <a href="#fund">Support our work</a> — help keep the program free for
-            learners.
-          </p>
         </header>
 
         <div className="marquee" aria-hidden="true">
@@ -257,7 +240,7 @@ export default function HomePage() {
               style={{
                 maxWidth: 720,
                 marginTop: 22,
-                fontSize: 18,
+                fontSize: 23,
                 lineHeight: 1.55,
               }}
             >
@@ -382,7 +365,7 @@ export default function HomePage() {
               style={{
                 maxWidth: 720,
                 marginTop: 22,
-                fontSize: 18,
+                fontSize: 23,
                 lineHeight: 1.55,
               }}
             >
@@ -550,7 +533,7 @@ export default function HomePage() {
             style={{
               maxWidth: 640,
               margin: "30px auto 0",
-              fontSize: 18,
+              fontSize: 23,
               opacity: 0.85,
             }}
           >

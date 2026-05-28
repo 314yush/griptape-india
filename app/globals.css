@@ -101,8 +101,35 @@
 #apply-flow nav.apply-top .apply-top-actions {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   flex-shrink: 0;
+}
+#apply-flow nav.apply-top .nav-btn {
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 700;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  text-decoration: none;
+  border: 2.5px solid var(--ink);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: 3px 3px 0 var(--ink);
+  font-family: inherit;
+}
+#apply-flow nav.apply-top .nav-btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 var(--ink);
+}
+#apply-flow nav.apply-top .nav-btn.btn-primary {
+  background: var(--yellow);
+  color: var(--ink);
+}
+#apply-flow nav.apply-top .nav-btn.btn-secondary {
+  background: var(--cream);
+  color: var(--ink);
 }
 #apply-flow nav.apply-top .logout {
   font-size: 14px;
@@ -121,6 +148,10 @@
   }
   #apply-flow nav.apply-top {
     padding: 14px 20px;
+  }
+  #apply-flow nav.apply-top .nav-btn {
+    padding: 8px 12px;
+    font-size: 13px;
   }
 }
 

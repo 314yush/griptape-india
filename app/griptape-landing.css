@@ -26,7 +26,7 @@
     background: var(--cream);
     color: var(--ink);
     font-family: 'Inter Tight', system-ui, sans-serif;
-    font-size: 17px;
+    font-size: 20px;
     line-height: 1.55;
     overflow-x: hidden;
   }
@@ -65,6 +65,7 @@
 
   /* ---------- NAV ---------- */
   #griptape-landing nav.top {
+    --nav-top-h: 72px;
     position: sticky; top: 0; z-index: 50;
     display: flex; align-items: center; justify-content: space-between;
     padding: 18px 32px;
@@ -74,7 +75,7 @@
   #griptape-landing nav.top .brand {
     font-family: 'Bricolage Grotesque', sans-serif;
     font-weight: 800;
-    font-size: 22px;
+    font-size: 27px;
     letter-spacing: -0.02em;
     display: flex; align-items: center; gap: 10px;
     text-decoration: none;
@@ -87,25 +88,27 @@
   #griptape-landing nav.top .brand:hover .mascot-img { transform: rotate(-15deg) scale(1.1); }
   #griptape-landing nav.top .nav-links-desktop {
     list-style: none; display: flex; gap: 28px; margin: 0; padding: 0;
-    font-size: 15px; font-weight: 500;
+    font-size: 20px; font-weight: 500;
   }
   #griptape-landing nav.top .nav-links-desktop a { text-decoration: none; }
   #griptape-landing nav.top .nav-links-desktop a:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; }
 
   #griptape-landing .nav-mobile-menu { display: none; }
 
-  #griptape-landing nav.top .apply-btn {
-    background: var(--ink); color: var(--cream);
-    padding: 12px 20px; border-radius: 999px;
-    text-decoration: none; font-weight: 600; font-size: 14px;
-    border: 2px solid var(--ink);
-    transition: transform 0.15s ease;
+  #griptape-landing nav.top .nav-btn {
+    padding: 10px 16px;
+    font-size: 19px;
+    font-weight: 700;
     min-height: 44px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    box-shadow: 3px 3px 0 var(--ink);
   }
-  #griptape-landing nav.top .apply-btn:hover { transform: rotate(-2deg) scale(1.04); background: var(--orange); }
+  #griptape-landing nav.top .nav-btn:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0 var(--ink);
+  }
   @media (max-width: 800px) {
     #griptape-landing nav.top .nav-links-desktop { display: none; }
     #griptape-landing nav.top {
@@ -116,7 +119,7 @@
       min-height: var(--nav-top-h);
       box-sizing: border-box;
     }
-    #griptape-landing nav.top .brand { font-size: 18px; min-width: 0; flex: 1; }
+    #griptape-landing nav.top .brand { font-size: 23px; min-width: 0; flex: 1; }
     #griptape-landing nav.top .brand .mascot-img { width: 32px; height: 32px; flex-shrink: 0; }
     #griptape-landing .nav-mobile-menu {
       display: block;
@@ -130,7 +133,7 @@
       border: 2px solid var(--ink);
       border-radius: 12px;
       font-weight: 700;
-      font-size: 14px;
+      font-size: 19px;
       background: var(--paper);
       display: inline-flex;
       align-items: center;
@@ -167,7 +170,7 @@
     #griptape-landing .nav-mobile-list a {
       display: block;
       text-decoration: none;
-      font-size: 18px;
+      font-size: 23px;
       font-weight: 600;
       padding: 16px 14px;
       border-radius: 12px;
@@ -184,15 +187,47 @@
     position: relative;
     background: var(--orange);
     color: var(--cream);
-    padding: 90px 32px 130px;
-    overflow: hidden;
+    --hero-pad-x: clamp(16px, 4vw, 32px);
+    --hero-pad-y: clamp(20px, 3.5vh, 48px);
+    --hero-gap: clamp(10px, 2vh, 20px);
+    min-height: calc(100svh - var(--nav-top-h, 72px));
+    min-height: calc(100dvh - var(--nav-top-h, 72px));
+    max-height: calc(100dvh - var(--nav-top-h, 72px));
+    overflow-x: hidden;
+    overflow-y: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding:
+      var(--hero-pad-y)
+      var(--hero-pad-x)
+      max(var(--hero-pad-y), env(safe-area-inset-bottom, 0px));
     border-bottom: 2px solid var(--ink);
+    box-sizing: border-box;
+  }
+  #griptape-landing .hero-inner {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--hero-gap);
+    text-align: center;
+  }
+  #griptape-landing .hero-decor {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    overflow: hidden;
   }
   #griptape-landing .hero h1 {
-    font-size: clamp(56px, 11vw, 168px);
+    font-size: clamp(33px, 4.5vw + 0.25rem, 69px);
     max-width: 1200px;
-    margin: 0 auto;
-    text-align: center;
+    margin: 0;
+    line-height: 0.95;
     text-wrap: balance;
   }
   #griptape-landing .hero h1 .y { color: var(--yellow); display: inline-block; transform: rotate(-2deg); }
@@ -203,31 +238,34 @@
     padding: 0 6px;
   }
   #griptape-landing .hero .kicker {
-    text-align: center;
     font-family: 'Caveat', cursive; font-weight: 700;
-    font-size: clamp(22px, 2.5vw, 30px);
-    margin-bottom: 26px;
+    font-size: clamp(21px, 1.8vw, 27px);
+    margin: 0;
     transform: rotate(-1.5deg);
     color: var(--yellow);
   }
   #griptape-landing .hero .sub {
-    max-width: 720px; margin: 36px auto 0;
-    text-align: center;
-    font-size: clamp(17px, 1.6vw, 21px);
-    line-height: 1.5;
+    max-width: 720px;
+    margin: 0;
+    font-size: clamp(20px, 1.2vw, 23px);
+    line-height: 1.45;
     color: var(--cream);
     opacity: 0.95;
   }
   #griptape-landing .hero .ctas {
-    display: flex; justify-content: center; gap: 16px; margin-top: 42px;
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    margin: 0;
     flex-wrap: wrap;
+    width: 100%;
+    max-width: 640px;
   }
   #griptape-landing .hero .hero-support-hint {
-    text-align: center;
-    margin: 28px auto 0;
+    margin: 0;
     max-width: 520px;
-    font-size: 15px;
-    line-height: 1.45;
+    font-size: clamp(18px, 1.2vw, 20px);
+    line-height: 1.4;
     opacity: 0.9;
   }
   #griptape-landing .hero .hero-support-hint a {
@@ -244,7 +282,7 @@
     padding: 18px 32px;
     border-radius: 999px;
     font-weight: 700;
-    font-size: 16px;
+    font-size: 20px;
     text-decoration: none;
     border: 2.5px solid var(--ink);
     transition: transform 0.15s ease, box-shadow 0.15s ease;
@@ -266,14 +304,16 @@
     padding: 10px 16px;
     font-family: 'Caveat', cursive;
     font-weight: 700;
-    font-size: 20px;
+    font-size: 25px;
     box-shadow: 4px 4px 0 var(--ink);
   }
-  #griptape-landing .sticker.s1 { top: 60px; left: 6%; transform: rotate(-8deg); background: var(--pink); }
-  #griptape-landing .sticker.s2 { top: 110px; right: 7%; transform: rotate(6deg); background: var(--cream); }
-  #griptape-landing .sticker.s3 { bottom: 60px; left: 8%; transform: rotate(4deg); background: var(--yellow); }
-  #griptape-landing .sticker.s4 { bottom: 80px; right: 5%; transform: rotate(-5deg); background: var(--cream); }
-  @media (max-width: 800px) { #griptape-landing .sticker { display: none; } }
+  #griptape-landing .sticker.s1 { top: 8%; left: 4%; transform: rotate(-8deg); background: var(--pink); }
+  #griptape-landing .sticker.s2 { top: 12%; right: 4%; transform: rotate(6deg); background: var(--cream); }
+  #griptape-landing .sticker.s3 { bottom: 10%; left: 5%; transform: rotate(4deg); background: var(--yellow); }
+  #griptape-landing .sticker.s4 { bottom: 12%; right: 4%; transform: rotate(-5deg); background: var(--cream); }
+  @media (max-width: 1100px) {
+    #griptape-landing .hero-decor .sticker { display: none; }
+  }
 
   /* mascot floating element — the actual icon */
   #griptape-landing .mascot-float {
@@ -282,15 +322,33 @@
     pointer-events: none;
     animation: bob 6s ease-in-out infinite;
   }
-  #griptape-landing .mascot-float.m1 { top: 40px; left: 4%; transform: rotate(-12deg); }
-  #griptape-landing .mascot-float.m2 { bottom: 60px; right: 4%; transform: rotate(15deg); width: 110px; height: 110px; animation-delay: -3s; }
+  #griptape-landing .mascot-float.m1 { top: 6%; left: 3%; transform: rotate(-12deg); }
+  #griptape-landing .mascot-float.m2 { bottom: 8%; right: 3%; transform: rotate(15deg); width: 110px; height: 110px; animation-delay: -3s; }
   @keyframes bob {
     0%, 100% { translate: 0 0; }
     50% { translate: 0 -14px; }
   }
   @media (max-width: 800px) {
-    #griptape-landing .mascot-float.m1 { width: 80px; height: 80px; top: 20px; left: 8%; }
+    #griptape-landing .mascot-float.m1 { width: 72px; height: 72px; top: 4%; left: 6%; }
     #griptape-landing .mascot-float.m2 { display: none; }
+  }
+  @media (max-height: 780px) {
+    #griptape-landing .hero {
+      --hero-pad-y: clamp(12px, 2vh, 24px);
+      --hero-gap: clamp(8px, 1.5vh, 14px);
+    }
+    #griptape-landing .hero h1 {
+      font-size: clamp(29px, 6vw, 45px);
+      line-height: 0.98;
+    }
+    #griptape-landing .hero .btn {
+      padding: 14px 22px;
+      font-size: 20px;
+    }
+    #griptape-landing .hero-decor { display: none; }
+  }
+  @media (max-width: 640px) and (max-height: 740px) {
+    #griptape-landing .hero .hero-support-hint { display: none; }
   }
 
   /* marquee under hero */
@@ -302,7 +360,7 @@
     border-bottom: 2px solid var(--ink);
     font-family: 'Bricolage Grotesque', sans-serif;
     font-weight: 800;
-    font-size: 26px;
+    font-size: 25px;
     letter-spacing: -0.01em;
   }
   #griptape-landing .marquee-track {
@@ -339,13 +397,13 @@
   #griptape-landing .eyebrow {
     display: inline-block;
     font-family: 'Caveat', cursive; font-weight: 700;
-    font-size: 28px;
+    font-size: 27px;
     color: var(--orange);
     margin-bottom: 18px;
     transform: rotate(-2deg);
   }
   #griptape-landing .section-title {
-    font-size: clamp(40px, 6vw, 80px);
+    font-size: clamp(33px, 4.5vw, 57px);
     max-width: 980px;
     text-wrap: balance;
   }
@@ -362,13 +420,13 @@
     font-family: 'Instrument Serif', serif;
     font-style: italic;
     font-weight: 400;
-    font-size: clamp(32px, 5.5vw, 76px);
+    font-size: clamp(37px, 5.5vw, 81px);
     line-height: 1.05;
     letter-spacing: -0.02em;
     color: var(--ink);
   }
   #griptape-landing .dare blockquote .h { background: var(--orange); color: var(--cream); padding: 0 12px; font-style: normal; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800; display: inline-block; transform: rotate(-1deg); }
-  #griptape-landing .dare cite { display: block; margin-top: 30px; font-style: normal; font-family: 'Caveat', cursive; font-weight: 700; font-size: 24px; }
+  #griptape-landing .dare cite { display: block; margin-top: 30px; font-style: normal; font-family: 'Caveat', cursive; font-weight: 700; font-size: 29px; }
 
   /* ---------- WHY THIS MATTERS ---------- */
   #griptape-landing .why { background: var(--cream); }
@@ -378,8 +436,8 @@
     align-items: start;
   }
   @media (max-width: 850px) { #griptape-landing .why-grid { grid-template-columns: 1fr; gap: 40px; } }
-  #griptape-landing .why h3 { font-size: 28px; margin-bottom: 14px; }
-  #griptape-landing .why p { font-size: 18px; line-height: 1.55; max-width: 560px; }
+  #griptape-landing .why h3 { font-size: 33px; margin-bottom: 14px; }
+  #griptape-landing .why p { font-size: 23px; line-height: 1.55; max-width: 560px; }
   #griptape-landing .why .panel {
     background: var(--paper);
     border: 2.5px solid var(--ink);
@@ -391,7 +449,7 @@
   #griptape-landing .why .panel.b { background: var(--pink); transform: rotate(0.8deg); }
   #griptape-landing .why .pull {
     font-family: 'Instrument Serif', serif; font-style: italic;
-    font-size: clamp(28px, 3.5vw, 44px);
+    font-size: clamp(33px, 3.5vw, 49px);
     line-height: 1.15;
     margin-top: 50px;
     text-align: center;
@@ -415,21 +473,21 @@
   #griptape-landing .grail-card.outer { background: var(--orange); color: var(--cream); transform: rotate(-1deg); }
   #griptape-landing .grail-card.inner { background: var(--ink); color: var(--cream); transform: rotate(1deg); margin-top: 30px; }
   #griptape-landing .grail-card .label {
-    font-family: 'Caveat', cursive; font-weight: 700; font-size: 26px;
+    font-family: 'Caveat', cursive; font-weight: 700; font-size: 31px;
     margin-bottom: 12px; opacity: 0.85;
   }
   #griptape-landing .grail-card .label .tag {
     display: inline-block; background: var(--yellow); color: var(--ink);
     padding: 2px 12px; border-radius: 999px; border: 2px solid var(--ink); margin-right: 8px;
   }
-  #griptape-landing .grail-card h3 { font-size: clamp(28px, 3.5vw, 42px); margin-bottom: 18px; line-height: 1.05; }
-  #griptape-landing .grail-card p { font-size: 17px; line-height: 1.5; opacity: 0.92; }
+  #griptape-landing .grail-card h3 { font-size: clamp(33px, 3.5vw, 47px); margin-bottom: 18px; line-height: 1.05; }
+  #griptape-landing .grail-card p { font-size: 22px; line-height: 1.5; opacity: 0.92; }
 
   /* ---------- TIMELINE: 10 WEEKS ---------- */
   #griptape-landing .timeline-section { background: var(--ink); color: var(--cream); }
   #griptape-landing .timeline-section .eyebrow { color: var(--yellow); }
   #griptape-landing .timeline-section .section-title { color: var(--cream); }
-  #griptape-landing .timeline-section .lede { font-size: 19px; max-width: 720px; margin-top: 26px; opacity: 0.85; }
+  #griptape-landing .timeline-section .lede { font-size: 24px; max-width: 720px; margin-top: 26px; opacity: 0.85; }
 
   #griptape-landing .tape {
     position: relative;
@@ -458,9 +516,9 @@
   #griptape-landing .peak:nth-child(2) { transform: rotate(1.2deg); background: var(--pink); }
   #griptape-landing .peak:nth-child(3) { transform: rotate(-1.4deg); background: var(--cream); }
   #griptape-landing .peak:nth-child(4) { transform: rotate(2deg); background: var(--orange); color: var(--cream); box-shadow: 5px 5px 0 var(--yellow); }
-  #griptape-landing .peak .week { font-family: 'Caveat'; font-weight: 700; font-size: 22px; margin-bottom: 6px; }
-  #griptape-landing .peak h4 { font-size: 24px; margin-bottom: 10px; line-height: 1.05; }
-  #griptape-landing .peak p { font-size: 15px; line-height: 1.45; }
+  #griptape-landing .peak .week { font-family: 'Caveat'; font-weight: 700; font-size: 27px; margin-bottom: 6px; }
+  #griptape-landing .peak h4 { font-size: 29px; margin-bottom: 10px; line-height: 1.05; }
+  #griptape-landing .peak p { font-size: 20px; line-height: 1.45; }
 
   #griptape-landing .rhythm {
     margin-top: 80px;
@@ -468,7 +526,7 @@
     align-items: start;
   }
   @media (max-width: 800px) { #griptape-landing .rhythm { grid-template-columns: 1fr; gap: 30px; } }
-  #griptape-landing .rhythm h3 { font-size: 28px; margin-bottom: 12px; color: var(--yellow); }
+  #griptape-landing .rhythm h3 { font-size: 33px; margin-bottom: 12px; color: var(--yellow); }
   #griptape-landing .rhythm p { opacity: 0.85; line-height: 1.55; }
 
   /* ---------- ENTRY STAGES ---------- */
@@ -489,19 +547,19 @@
   #griptape-landing .stage:nth-child(3) { transform: rotate(-0.6deg); }
   #griptape-landing .stage .num {
     font-family: 'Bricolage Grotesque'; font-weight: 800;
-    font-size: 64px; line-height: 1; color: var(--orange);
+    font-size: 69px; line-height: 1; color: var(--orange);
     margin-bottom: 8px;
   }
-  #griptape-landing .stage h3 { font-size: 26px; margin-bottom: 8px; }
+  #griptape-landing .stage h3 { font-size: 31px; margin-bottom: 8px; }
   #griptape-landing .stage .quote {
     font-family: 'Instrument Serif'; font-style: italic;
-    font-size: 18px; margin-bottom: 14px; color: var(--orange-deep);
+    font-size: 23px; margin-bottom: 14px; color: var(--orange-deep);
   }
-  #griptape-landing .stage p { font-size: 15px; line-height: 1.5; }
+  #griptape-landing .stage p { font-size: 20px; line-height: 1.5; }
 
   #griptape-landing .stages .footnote {
     margin-top: 60px; text-align: center;
-    font-family: 'Caveat'; font-weight: 700; font-size: 24px;
+    font-family: 'Caveat'; font-weight: 700; font-size: 29px;
   }
 
   /* ---------- AFTER LC: 3 PATHWAYS ---------- */
@@ -519,9 +577,9 @@
   #griptape-landing .path:nth-child(2) { background: var(--pink); transform: rotate(0.6deg); }
   #griptape-landing .path:nth-child(3) { background: var(--orange); color: var(--cream); transform: rotate(-0.6deg); }
   #griptape-landing .path:nth-child(2):hover, #griptape-landing .path:nth-child(3):hover { transform: translate(-3px, -3px) rotate(0deg); }
-  #griptape-landing .path .num { font-family: 'Caveat'; font-size: 28px; font-weight: 700; margin-bottom: 4px; }
-  #griptape-landing .path h3 { font-size: 28px; margin-bottom: 12px; line-height: 1.05; }
-  #griptape-landing .path p { font-size: 16px; line-height: 1.5; }
+  #griptape-landing .path .num { font-family: 'Caveat'; font-size: 33px; font-weight: 700; margin-bottom: 4px; }
+  #griptape-landing .path h3 { font-size: 33px; margin-bottom: 12px; line-height: 1.05; }
+  #griptape-landing .path p { font-size: 21px; line-height: 1.5; }
 
   /* ---------- RESOURCE MOBILIZATION ---------- */
   #griptape-landing .resource { background: var(--orange); color: var(--cream); }
@@ -530,8 +588,8 @@
   }
   @media (max-width: 850px) { #griptape-landing .resource .container { grid-template-columns: 1fr; } }
   #griptape-landing .resource .eyebrow { color: var(--yellow); }
-  #griptape-landing .resource h2 { font-size: clamp(36px, 5vw, 66px); }
-  #griptape-landing .resource p { font-size: 18px; line-height: 1.55; margin-top: 24px; opacity: 0.95; max-width: 540px; }
+  #griptape-landing .resource h2 { font-size: clamp(41px, 5vw, 71px); }
+  #griptape-landing .resource p { font-size: 23px; line-height: 1.55; margin-top: 24px; opacity: 0.95; max-width: 540px; }
   #griptape-landing .resource .skills-list {
     list-style: none; padding: 0; margin: 0;
     display: flex; flex-direction: column; gap: 14px;
@@ -541,7 +599,7 @@
     border: 2.5px solid var(--ink); border-radius: 14px;
     padding: 18px 24px;
     font-family: 'Bricolage Grotesque'; font-weight: 600;
-    font-size: 19px;
+    font-size: 24px;
     box-shadow: 4px 4px 0 var(--ink);
   }
   #griptape-landing .resource .skills-list li:nth-child(1) { transform: rotate(-1.5deg); }
@@ -570,14 +628,14 @@
   #griptape-landing .proof-card.b { background: var(--yellow); transform: rotate(0.6deg); margin-top: 20px; }
   #griptape-landing .proof-card.c { background: var(--pink); transform: rotate(-0.4deg); }
   #griptape-landing .proof-card .quote-mark {
-    font-family: 'Instrument Serif'; font-size: 80px; line-height: 0.7; opacity: 0.6;
+    font-family: 'Instrument Serif'; font-size: 85px; line-height: 0.7; opacity: 0.6;
   }
   #griptape-landing .proof-card blockquote {
     font-family: 'Instrument Serif'; font-style: italic;
-    font-size: 22px; line-height: 1.2; margin: 0;
+    font-size: 27px; line-height: 1.2; margin: 0;
   }
   #griptape-landing .proof-card .who {
-    font-family: 'Caveat'; font-weight: 700; font-size: 22px; margin-top: 16px;
+    font-family: 'Caveat'; font-weight: 700; font-size: 27px; margin-top: 16px;
   }
 
   /* stories carousel (#stories) */
@@ -653,7 +711,7 @@
     align-items: center;
     justify-content: center;
     font-family: 'Bricolage Grotesque', sans-serif;
-    font-size: clamp(56px, 18vw, 92px);
+    font-size: clamp(61px, 18vw, 97px);
     font-weight: 800;
     letter-spacing: -0.04em;
     user-select: none;
@@ -676,7 +734,7 @@
   #griptape-landing .stories-build-line {
     font-family: 'Inter Tight', sans-serif;
     font-weight: 400;
-    font-size: 13px;
+    font-size: 18px;
     opacity: 0.85;
   }
   #griptape-landing .stories-slide .proof-card.b .stories-build-line { opacity: 0.7; }
@@ -691,7 +749,7 @@
   #griptape-landing .stories-carousel-btn {
     font-family: 'Bricolage Grotesque', sans-serif;
     font-weight: 700;
-    font-size: 18px;
+    font-size: 23px;
     line-height: 1;
     width: 44px;
     height: 44px;
@@ -746,7 +804,7 @@
     overflow: hidden;
   }
   #griptape-landing .final-cta h2 {
-    font-size: clamp(44px, 8vw, 120px);
+    font-size: clamp(37px, 6vw, 77px);
     max-width: 1100px; margin: 0 auto;
     text-wrap: balance;
   }
@@ -768,14 +826,14 @@
     display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px;
   }
   @media (max-width: 800px) { #griptape-landing footer .container { grid-template-columns: 1fr 1fr; } }
-  #griptape-landing footer .brand-block { font-family: 'Bricolage Grotesque'; font-weight: 800; font-size: 28px; }
-  #griptape-landing footer .brand-block p { font-family: 'Inter Tight'; font-weight: 400; font-size: 15px; max-width: 320px; margin-top: 14px; opacity: 0.75; }
-  #griptape-landing footer h5 { font-family: 'Bricolage Grotesque'; font-weight: 800; font-size: 16px; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.04em; }
+  #griptape-landing footer .brand-block { font-family: 'Bricolage Grotesque'; font-weight: 800; font-size: 33px; }
+  #griptape-landing footer .brand-block p { font-family: 'Inter Tight'; font-weight: 400; font-size: 20px; max-width: 320px; margin-top: 14px; opacity: 0.75; }
+  #griptape-landing footer h5 { font-family: 'Bricolage Grotesque'; font-weight: 800; font-size: 21px; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.04em; }
   #griptape-landing footer ul { list-style: none; padding: 0; margin: 0; }
-  #griptape-landing footer li { margin-bottom: 8px; font-size: 15px; }
+  #griptape-landing footer li { margin-bottom: 8px; font-size: 20px; }
   #griptape-landing footer a { text-decoration: none; }
   #griptape-landing footer a:hover { text-decoration: underline; text-underline-offset: 3px; }
-  #griptape-landing footer .legal { margin-top: 60px; padding-top: 24px; border-top: 1.5px dashed var(--ink); font-size: 13px; opacity: 0.6; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+  #griptape-landing footer .legal { margin-top: 60px; padding-top: 24px; border-top: 1.5px dashed var(--ink); font-size: 18px; opacity: 0.6; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
 
   /* arrows + svg flourishes */
   #griptape-landing .squiggle {
@@ -814,20 +872,20 @@
 
   #griptape-landing .program-tag {
     font-family: 'Caveat', cursive; font-weight: 700;
-    font-size: 22px;
+    font-size: 27px;
     margin-bottom: 6px;
     opacity: 0.85;
   }
   #griptape-landing .program-card h3 {
-    font-size: clamp(26px, 3vw, 36px);
+    font-size: clamp(31px, 3vw, 41px);
     line-height: 1; letter-spacing: -0.02em;
     margin-bottom: 14px;
   }
   #griptape-landing .program-card .program-pitch {
-    font-size: 16px; line-height: 1.5;
+    font-size: 21px; line-height: 1.5;
     margin-bottom: 22px;
   }
-  #griptape-landing .program-card.flagship .program-pitch { font-size: 17px; }
+  #griptape-landing .program-card.flagship .program-pitch { font-size: 22px; }
   #griptape-landing .program-card ul.program-stats {
     list-style: none; padding: 0; margin: 0 0 24px 0;
     display: flex; flex-direction: column; gap: 8px;
@@ -835,7 +893,7 @@
     padding-top: 18px;
   }
   #griptape-landing .program-card ul.program-stats li {
-    font-size: 14px; line-height: 1.4;
+    font-size: 19px; line-height: 1.4;
     opacity: 0.92;
   }
   #griptape-landing .program-card ul.program-stats li strong {
@@ -846,7 +904,7 @@
     align-self: flex-start;
     font-family: 'Bricolage Grotesque', sans-serif;
     font-weight: 700;
-    font-size: 15px;
+    font-size: 20px;
     text-decoration: none;
     padding: 12px 20px;
     border: 2.5px solid currentColor;
@@ -860,7 +918,7 @@
     border-color: var(--cream);
   }
   #griptape-landing .program-card .program-card-note {
-    font-size: 14px;
+    font-size: 19px;
     line-height: 1.45;
     opacity: 0.88;
     margin: -8px 0 18px 0;
@@ -870,7 +928,7 @@
     opacity: 0.92;
   }
   #griptape-landing .program-card .program-link-muted {
-    font-size: 14px;
+    font-size: 19px;
     font-weight: 600;
     padding: 10px 18px;
     opacity: 0.95;
@@ -892,12 +950,12 @@
     box-shadow: 5px 5px 0 var(--ink);
   }
   #griptape-landing .about-ngo-panel h3 {
-    font-size: 22px;
+    font-size: 27px;
     margin-bottom: 12px;
     line-height: 1.1;
   }
   #griptape-landing .about-ngo-panel p {
-    font-size: 16px;
+    font-size: 21px;
     line-height: 1.55;
     margin: 0;
   }
@@ -930,7 +988,7 @@
     display: inline-block;
     font-family: 'Bricolage Grotesque', sans-serif;
     font-weight: 700;
-    font-size: 15px;
+    font-size: 20px;
     text-decoration: none;
     padding: 12px 20px;
     border: 2.5px solid var(--ink);
@@ -951,7 +1009,7 @@
     max-width: 900px;
   }
   #griptape-landing .faq-title {
-    font-size: clamp(26px, 3vw, 34px);
+    font-size: clamp(31px, 3vw, 39px);
     margin-bottom: 20px;
     line-height: 1.05;
   }
@@ -972,7 +1030,7 @@
     cursor: pointer;
     font-family: 'Bricolage Grotesque', sans-serif;
     font-weight: 800;
-    font-size: 17px;
+    font-size: 22px;
     line-height: 1.25;
     padding: 18px 48px 18px 18px;
     position: relative;
@@ -1002,7 +1060,7 @@
   }
   #griptape-landing .faq-answer p {
     margin: 14px 0 0 0;
-    font-size: 16px;
+    font-size: 21px;
     line-height: 1.55;
     opacity: 0.95;
   }
@@ -1019,11 +1077,11 @@
     #griptape-landing .what-it-is .heading-row { grid-template-columns: 1fr; gap: 24px; align-items: start; }
   }
   #griptape-landing .what-it-is h2 {
-    font-size: clamp(38px, 5.5vw, 64px);
+    font-size: clamp(43px, 5.5vw, 69px);
     line-height: 0.95;
   }
   #griptape-landing .what-it-is .heading-row p {
-    font-size: 17px; line-height: 1.55;
+    font-size: 22px; line-height: 1.55;
     max-width: 480px;
   }
   #griptape-landing .explainer-grid {
@@ -1039,30 +1097,30 @@
   }
   #griptape-landing .explainer .step {
     font-family: 'Caveat', cursive; font-weight: 700;
-    font-size: 22px;
+    font-size: 27px;
     color: var(--orange);
     margin-bottom: 4px;
   }
   #griptape-landing .explainer h3 {
-    font-size: 24px;
+    font-size: 29px;
     margin-bottom: 12px;
     line-height: 1.05;
   }
   #griptape-landing .explainer p {
-    font-size: 15.5px;
+    font-size: 20.5px;
     line-height: 1.5;
   }
   #griptape-landing .explainer p strong { font-weight: 600; background: var(--yellow); padding: 0 4px; }
   #griptape-landing .what-it-is .footnote-row {
     margin-top: 40px;
     text-align: center;
-    font-family: 'Caveat'; font-weight: 700; font-size: 22px;
+    font-family: 'Caveat'; font-weight: 700; font-size: 27px;
     color: var(--ink-soft);
   }
 
   /* ---------- GET INVOLVED ---------- */
   #griptape-landing .involved { background: var(--cream); }
-  #griptape-landing .involved .lede { font-size: 19px; max-width: 720px; margin-top: 22px; line-height: 1.55; }
+  #griptape-landing .involved .lede { font-size: 24px; max-width: 720px; margin-top: 22px; line-height: 1.55; }
   #griptape-landing .involved-grid {
     display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 64px;
   }
@@ -1099,16 +1157,16 @@
 
   #griptape-landing .involve-card .role-tag {
     font-family: 'Caveat', cursive; font-weight: 700;
-    font-size: 24px; margin-bottom: 8px;
+    font-size: 29px; margin-bottom: 8px;
     opacity: 0.85;
   }
   #griptape-landing .involve-card h3 {
-    font-size: clamp(28px, 3.5vw, 40px);
+    font-size: clamp(33px, 3.5vw, 45px);
     margin-bottom: 16px;
     line-height: 1; letter-spacing: -0.025em;
   }
   #griptape-landing .involve-card .pitch {
-    font-size: 16px; line-height: 1.5;
+    font-size: 21px; line-height: 1.5;
     margin-bottom: 22px;
   }
   #griptape-landing .involve-card ul.ways {
@@ -1116,7 +1174,7 @@
     display: flex; flex-direction: column; gap: 8px;
   }
   #griptape-landing .involve-card ul.ways li {
-    font-size: 15px;
+    font-size: 20px;
     padding-left: 22px;
     position: relative;
     line-height: 1.4;
@@ -1135,7 +1193,7 @@
     border: 2.5px solid var(--ink);
     border-radius: 999px;
     text-decoration: none;
-    font-weight: 700; font-size: 15px;
+    font-weight: 700; font-size: 20px;
     align-self: flex-start;
     transition: transform 0.15s ease;
   }
@@ -1157,17 +1215,17 @@
   #griptape-landing .champion-eyebrow {
     font-family: 'Caveat', cursive;
     font-weight: 700;
-    font-size: 22px;
+    font-size: 27px;
     color: var(--orange-deep);
     margin-bottom: 6px;
   }
   #griptape-landing .champion-callout-inner h3 {
-    font-size: clamp(26px, 3vw, 36px);
+    font-size: clamp(31px, 3vw, 41px);
     margin-bottom: 12px;
     line-height: 1.05;
   }
   #griptape-landing .champion-callout-inner > p {
-    font-size: 16px;
+    font-size: 21px;
     line-height: 1.55;
     margin: 0 0 16px 0;
   }
@@ -1178,7 +1236,7 @@
     display: flex;
     flex-direction: column;
     gap: 6px;
-    font-size: 15px;
+    font-size: 20px;
   }
   #griptape-landing .champion-highlights li {
     padding-left: 20px;
@@ -1202,25 +1260,28 @@
     flex-shrink: 0;
   }
   @media (max-width: 800px) {
-    #griptape-landing nav.top .nav-cta-group .apply-btn {
-      padding: 10px 14px;
-      font-size: 13px;
+    #griptape-landing nav.top .nav-cta-group .nav-btn {
+      padding: 8px 12px;
+      font-size: 18px;
       min-height: 44px;
     }
   }
 
   /* ---------- MOBILE-FIRST (narrow phones) ---------- */
   @media (max-width: 640px) {
-    #griptape-landing { font-size: 16px; -webkit-text-size-adjust: 100%; }
+    #griptape-landing { font-size: 20px; -webkit-text-size-adjust: 100%; }
     #griptape-landing section { padding: 58px 16px 64px; }
     #griptape-landing .what-it-is { padding-top: 58px; padding-bottom: 58px; }
-    #griptape-landing .hero { padding: 48px 16px 64px; }
+    #griptape-landing .hero {
+      --hero-pad-y: clamp(16px, 4vh, 32px);
+      --hero-gap: clamp(10px, 2vh, 16px);
+    }
     #griptape-landing .hero h1 {
-      font-size: clamp(32px, 11vw, 56px);
+      font-size: clamp(31px, 8vw, 47px);
       line-height: 0.98;
     }
-    #griptape-landing .section-title { font-size: clamp(26px, 7.5vw, 44px); }
-    #griptape-landing .eyebrow { font-size: clamp(22px, 5vw, 26px); }
+    #griptape-landing .section-title { font-size: clamp(31px, 7.5vw, 49px); }
+    #griptape-landing .eyebrow { font-size: clamp(27px, 5vw, 31px); }
     #griptape-landing .hero .ctas {
       flex-direction: column;
       align-items: stretch;
@@ -1237,7 +1298,7 @@
       justify-content: center;
     }
     #griptape-landing .marquee {
-      font-size: clamp(16px, 4.5vw, 20px);
+      font-size: clamp(21px, 4.5vw, 25px);
       padding: 12px 0;
     }
     #griptape-landing .marquee-track { gap: 32px; }
@@ -1272,7 +1333,7 @@
     #griptape-landing .involve-card { padding: 28px 22px; }
     #griptape-landing .support-single-wrap { margin-top: 32px; }
     #griptape-landing .faq-summary {
-      font-size: 16px;
+      font-size: 21px;
       padding: 16px 44px 16px 16px;
     }
     #griptape-landing .for-students .stage .for-students-apply-link {
