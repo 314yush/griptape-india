@@ -232,9 +232,6 @@
   }
   #griptape-landing .hero h1 .y { color: var(--yellow); display: inline-block; transform: rotate(-2deg); }
   #griptape-landing .hero h1 .underline {
-    background-image: linear-gradient(transparent 65%, var(--ink) 65%, var(--ink) 78%, transparent 78%);
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
     padding: 0 6px;
   }
   #griptape-landing .hero .kicker {
@@ -390,7 +387,7 @@
   #griptape-landing section {
     position: relative;
     z-index: 2;
-    padding: 110px 32px;
+    padding: 72px 32px;
     border-bottom: 2px solid var(--ink);
   }
   #griptape-landing .container { max-width: 1180px; margin: 0 auto; }
@@ -538,7 +535,7 @@
     background: var(--cream);
     border: 2.5px solid var(--ink);
     border-radius: 22px;
-    padding: 36px;
+    padding: 20px;
     box-shadow: 6px 6px 0 var(--ink);
     position: relative;
   }

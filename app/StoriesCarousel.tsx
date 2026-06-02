@@ -17,44 +17,51 @@ export type StorySlide = {
   initials: string;
   quote: string;
   name: string;
-  age: number;
+  age?: number;
   build: string;
   cardTone: "a" | "b" | "c";
 };
 
 export const STORY_SLIDES: StorySlide[] = [
   {
-    id: "aarav",
-    imageAlt: "Portrait of Aarav, Learning Challenge learner",
-    initials: "A",
+    id: "shreya",
+    imageAlt: "Portrait of Shreya, Learning Challenge learner",
+    initials: "S",
     quote:
-      "I came in thinking I was bad at everything. I left having built a thing nobody asked me to build.",
-    name: "Aarav",
-    age: 16,
-    build: "cohort 01 · self-taught a synth from scratch",
+      "Before Griptape, I didn't know how to run a social project. Now I do them on my own. It gave me compassion, confidence, and a completely new way of seeing my community.",
+    name: "Shreya",
+    build: "ran a community awareness project",
     cardTone: "a",
   },
   {
-    id: "saanvi",
-    imageAlt: "Portrait of Saanvi, Learning Challenge learner",
+    id: "shubhankar",
+    imageAlt: "Portrait of Shubhankar, Learning Challenge learner",
     initials: "S",
     quote:
-      "The Champion never told me what to do. That was the scariest part. And the best part.",
-    name: "Saanvi",
-    age: 17,
-    build: "cohort 02 · made a short film about her neighbourhood",
+      "Griptape lets you do what you want, without instructions or commands. Before this, I knew very little about technology. It took me deep into AI, game dev, and coding. It changed my mindset completely.",
+    name: "Shubhankar",
+    build: "went deep into AI, game dev and coding",
     cardTone: "b",
   },
   {
-    id: "rishaan",
-    imageAlt: "Portrait of Rishaan, Learning Challenge learner",
+    id: "rehan",
+    imageAlt: "Portrait of Rehan, Learning Challenge learner",
     initials: "R",
     quote:
-      "I asked for help from a stranger online. They said yes. I haven't been the same since.",
-    name: "Rishaan",
-    age: 15,
-    build: "cohort 02 · built a low-cost air sensor",
+      "I built a drone during my Learning Challenge. I had no idea about electronics, but I kept trying, making mistakes, and fixing them. That process made me confident. It also changed how I communicate.",
+    name: "Rehan",
+    build: "built a drone from scratch",
     cardTone: "c",
+  },
+  {
+    id: "nikhil",
+    imageAlt: "Portrait of Nikhil, Learning Challenge learner",
+    initials: "N",
+    quote:
+      "I had social anxiety before this. I was afraid of talking to people. After Griptape, I built an app and now I can speak confidently in front of a camera. It completely changed my life.",
+    name: "Nikhil",
+    build: "built his own app",
+    cardTone: "b",
   },
 ];
 
@@ -190,7 +197,7 @@ export default function StoriesCarousel() {
                   <div className="quote-mark">&ldquo;</div>
                   <blockquote>{story.quote}</blockquote>
                   <div className="who">
-                    — {story.name}, {story.age}
+                    — {story.name}{story.age ? `, ${story.age}` : ""}
                     <br />
                     <span className="stories-build-line">{story.build}</span>
                   </div>
