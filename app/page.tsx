@@ -80,7 +80,7 @@ export default function HomePage() {
             </div>
           </details>
           <div className="nav-cta-group">
-            <Link href="/apply" className="btn btn-primary nav-btn">
+            <Link href="https://forms.gle/3qp4wpf2oCFucd4r5" className="btn btn-primary nav-btn">
               Apply
             </Link>
             <a href="#fund" className="btn btn-secondary nav-btn">
@@ -111,7 +111,7 @@ export default function HomePage() {
               fail, iterate, and build again.
             </p>
             <div className="ctas">
-              <Link href="/apply" className="btn btn-primary">
+              <Link href="https://forms.gle/3qp4wpf2oCFucd4r5" className="btn btn-primary">
                 Apply →
               </Link>
               <a href="#fund" className="btn btn-secondary">
@@ -283,7 +283,7 @@ export default function HomePage() {
                 <p style={{ marginBottom: 2 }}><strong>2.</strong> Tell us about yourself and your pursuit idea.</p>
                 <p style={{ marginBottom: 2 }}><strong>3.</strong> Record a short video so we can hear you in your own words.</p>
                 <p style={{ marginTop: 16, marginBottom: 0 }}>
-                  <Link href="/apply" className="program-link for-students-apply-link">
+                  <Link href="https://forms.gle/3qp4wpf2oCFucd4r5" className="program-link for-students-apply-link">
                     Apply →
                   </Link>
                 </p>
@@ -397,7 +397,7 @@ export default function HomePage() {
                   <li>₹2,00,000 supports a cohort of 20 young people</li>
                   <li>Long-term: anchor partner for a full year</li>
                 </ul>
-                <a href="#" className="cta-link">
+                <a href="https://forms.gle/yUyr1QkrSSbf8Bx99" target="_blank" rel="noopener noreferrer" className="cta-link">
                   Donate now →
                 </a>
               </div>
@@ -424,7 +424,7 @@ export default function HomePage() {
                   your students the chance to design their own learning
                   experience, reach out. We&apos;ll figure out the fit together.
                 </p>
-                <a href="#" className="cta-link">
+                <a href="mailto:griptapeindia@gmail.com" className="cta-link">
                   Start a conversation →
                 </a>
               </div>
@@ -445,7 +445,7 @@ export default function HomePage() {
                   <li>~3 hours a week across 10 weeks · fully online</li>
                   <li>Open to professionals, parents, alumni</li>
                 </ul>
-                <a href="#" className="cta-link champion-cta">
+                <a href="https://forms.gle/qapsCnoRd4VWdgrt6" target="_blank" rel="noopener noreferrer" className="cta-link champion-cta">
                   Apply to be a Champion →
                 </a>
               </div>
@@ -484,7 +484,7 @@ export default function HomePage() {
             to your application.
           </p>
           <div className="ctas">
-            <Link href="/apply" className="btn btn-primary">
+            <Link href="https://forms.gle/3qp4wpf2oCFucd4r5" className="btn btn-primary">
               Apply now →
             </Link>
             <a href="#fund" className="btn btn-secondary">
@@ -508,7 +508,7 @@ export default function HomePage() {
               />
               Griptape India
               <p>
-                Learn. Fail. Iterate. Build again.
+                You bring the passion, we provide the support.
               </p>
             </div>
             <div>
@@ -521,10 +521,10 @@ export default function HomePage() {
                   <a href="#for-students">For students</a>
                 </li>
                 <li>
-                  <a href="#learning-challenge">The Learning Challenge</a>
+                  <a href="#stories">Testimonials</a>
                 </li>
                 <li>
-                  <a href="#stories">Stories</a>
+                  <a href="https://research.griptape.org" target="_blank" rel="noopener noreferrer">Research</a>
                 </li>
               </ul>
             </div>
@@ -532,31 +532,27 @@ export default function HomePage() {
               <h5>Get involved</h5>
               <ul>
                 <li>
-                  <Link href="/apply">Apply</Link>
+                  <a href="https://forms.gle/3qp4wpf2oCFucd4r5" target="_blank" rel="noopener noreferrer">Apply</a>
                 </li>
                 <li>
-                  <a href="#fund">Donate</a>
+                  <a href="https://forms.gle/yUyr1QkrSSbf8Bx99" target="_blank" rel="noopener noreferrer">Donate</a>
                 </li>
                 <li>
                   <a href="#partner">Partner with us</a>
                 </li>
                 <li>
-                  <a href="#champion">Become a Champion</a>
+                  <a href="https://forms.gle/qapsCnoRd4VWdgrt6" target="_blank" rel="noopener noreferrer">Become a Champion</a>
                 </li>
               </ul>
             </div>
             <div>
               <h5>Find us</h5>
               <ul>
-                <li>India · began in Bangalore</li>
                 <li>
-                  <a href="mailto:hello@griptape.in">hello@griptape.in</a>
+                  <a href="mailto:griptapeindia@gmail.com">griptapeindia@gmail.com</a>
                 </li>
                 <li>
-                  <a href="#">Instagram</a>
-                </li>
-                <li>
-                  <a href="#">YouTube</a>
+                  <a href="https://www.instagram.com/griptape.india" target="_blank" rel="noopener noreferrer">Instagram</a>
                 </li>
               </ul>
             </div>
