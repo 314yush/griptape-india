@@ -559,7 +559,7 @@ export default function HomePage() {
           </div>
           <div className="legal container">
             <div>© Griptape India {year} · made with grit</div>
-            <div>Inspired by The GripTape Challenge, USA</div>
+            <div>In partnership with GripTape Org, USA</div>
           </div>
         </footer>
       </div>
