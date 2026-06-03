@@ -188,11 +188,9 @@ export default function HomePage() {
 
         <section className="what-it-is reveal" id="believe">
           <div className="container">
+            <span className="eyebrow">⌁ what we believe</span>
             <div className="heading-row">
-              <div>
-                <span className="eyebrow">⌁ what we believe</span>
-                <h2>Three things, simple.</h2>
-              </div>
+              <h2>Three things, simple.</h2>
               <p>
                 Griptape India isn&apos;t a curriculum. It&apos;s a worldview:
                 young people are capable of far more than we give them credit
