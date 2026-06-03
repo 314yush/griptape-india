@@ -1263,6 +1263,22 @@
       font-size: 18px;
       min-height: 44px;
     }
+    #griptape-landing nav.top .nav-cta-group .btn-secondary {
+      display: none;
+    }
+  }
+  @media (max-width: 480px) {
+    /* Hide "India" italic on narrow phones so brand + Menu + Apply all fit */
+    #griptape-landing nav.top .brand em {
+      display: none;
+    }
+    #griptape-landing nav.top .brand {
+      font-size: 21px;
+    }
+    #griptape-landing nav.top .nav-cta-group .nav-btn {
+      padding: 8px 10px;
+      font-size: 16px;
+    }
   }
 
   /* ---------- MOBILE-FIRST (narrow phones) ---------- */
