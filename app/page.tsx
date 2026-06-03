@@ -54,7 +54,10 @@ export default function HomePage() {
               <a href="#about-ngo">About</a>
             </li>
             <li>
-              <a href="#learning-challenge">The Challenge</a>
+              <a href="#for-students">Program</a>
+            </li>
+            <li>
+              <a href="#partner">Partner</a>
             </li>
             <li>
               <a href="#stories">Stories</a>
@@ -71,7 +74,10 @@ export default function HomePage() {
                   <a href="#about-ngo">About</a>
                 </li>
                 <li>
-                  <a href="#learning-challenge">The Challenge</a>
+                  <a href="#for-students">Program</a>
+                </li>
+                <li>
+                  <a href="#partner">Partner</a>
                 </li>
                 <li>
                   <a href="#stories">Stories</a>
