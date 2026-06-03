@@ -25,6 +25,7 @@ export type StorySlide = {
 export const STORY_SLIDES: StorySlide[] = [
   {
     id: "shreya",
+    imageSrc: "/stories/shreya.jpg",
     imageAlt: "Portrait of Shreya, Learning Challenge learner",
     initials: "S",
     quote:
@@ -35,6 +36,7 @@ export const STORY_SLIDES: StorySlide[] = [
   },
   {
     id: "shubhankar",
+    imageSrc: "/stories/shubhankar.jpg",
     imageAlt: "Portrait of Shubhankar, Learning Challenge learner",
     initials: "S",
     quote:
@@ -45,6 +47,7 @@ export const STORY_SLIDES: StorySlide[] = [
   },
   {
     id: "rehan",
+    imageSrc: "/stories/rehan.jpg",
     imageAlt: "Portrait of Rehan, Learning Challenge learner",
     initials: "R",
     quote:
@@ -55,6 +58,7 @@ export const STORY_SLIDES: StorySlide[] = [
   },
   {
     id: "nikhil",
+    imageSrc: "/stories/nikhil.jpg",
     imageAlt: "Portrait of Nikhil, Learning Challenge learner",
     initials: "N",
     quote:
