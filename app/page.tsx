@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   title:
     "Apply | Griptape India Learning Challenge | India non-profit for ages 14–19",
   description:
-    "Apply to the free Learning Challenge: 10 weeks, one pursuit you choose, a Champion mentor, peer tribe, and proof you can build it. Griptape India began in Bangalore and works with young people across India, inspired by GripTape, USA.",
+    "Apply to the free Learning Challenge: 10 weeks, one pursuit you choose, a Champion mentor, peer tribe, and proof you can build it. Griptape India began in Bangalore and works with young people across India, in partnership with GripTape, USA.",
 };
 
 function MarqueeSegment() {
@@ -165,7 +165,7 @@ export default function HomePage() {
                 </p>
               </div>
               <div className="about-ngo-panel about-ngo-wide">
-                <h3>Inspired by GripTape, USA</h3>
+                <h3>In partnership with GripTape, USA</h3>
                 <p>
                   Our method draws from{" "}
                   <strong>The GripTape Challenge</strong> in the United States.
