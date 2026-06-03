@@ -1066,8 +1066,8 @@
   #griptape-landing .what-it-is { background: var(--paper); padding-top: 90px; padding-bottom: 90px; }
   #griptape-landing .what-it-is .container { max-width: 1100px; }
   #griptape-landing .what-it-is .heading-row {
-    display: grid; grid-template-columns: 1fr 1.3fr; gap: 60px;
-    align-items: end;
+    display: grid; grid-template-columns: 1fr; gap: 16px;
+    align-items: start;
     margin-bottom: 50px;
   }
   @media (max-width: 850px) {
