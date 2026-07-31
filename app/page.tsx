@@ -62,6 +62,9 @@ export default function HomePage() {
             <li>
               <a href="#stories">Stories</a>
             </li>
+            <li>
+              <Link href="/blog">Magazine</Link>
+            </li>
           </ul>
           <details className="nav-mobile-menu">
             <summary className="nav-mobile-toggle">
@@ -78,6 +81,9 @@ export default function HomePage() {
                 </li>
                 <li>
                   <a href="#partner">Partner</a>
+                </li>
+                <li>
+                  <Link href="/blog">Magazine</Link>
                 </li>
                 <li>
                   <a href="#stories">Stories</a>

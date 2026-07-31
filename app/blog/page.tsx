@@ -50,11 +50,17 @@ export default async function BlogPage() {
   return (
     <main className="blog-page">
       <div className="blog-header">
-        <p className="blog-kicker">From the Griptape community</p>
-        <h1 className="blog-heading">Griptape India Mag</h1>
-        <p className="blog-sub">
-          What our learners are building, what we are learning, and everything in between.
-        </p>
+        <div className="blog-header-blobs" aria-hidden>
+          <span className="blob b1" /><span className="blob b2" /><span className="blob b3" />
+          <span className="blob b4" /><span className="blob b5" /><span className="blob b6" />
+        </div>
+        <div className="blog-header-inner">
+          <p className="blog-issue">Issue 1</p>
+          <h1 className="blog-heading">Griptape India Mag</h1>
+          <p className="blog-sub">
+            What our learners are building, what we are learning, and everything in between.
+          </p>
+        </div>
       </div>
 
       {posts.length === 0 ? (

@@ -86,6 +86,10 @@ export default async function PostPage({
 
       <article className="post-article">
         <header className="post-header">
+          <div className="post-header-blobs" aria-hidden>
+            <span className="blob b1" /><span className="blob b2" />
+            <span className="blob b3" /><span className="blob b4" />
+          </div>
           {post.publishedAt && (
             <time className="post-date">{formatDate(post.publishedAt)}</time>
           )}
@@ -102,7 +106,12 @@ export default async function PostPage({
                   />
                 </div>
               )}
-              <span>{post.author.name}</span>
+              <div className="post-byline-text">
+                <span className="post-byline-name">{post.author.name}</span>
+                {(post.author as any).role && (
+                  <span className="post-byline-role">{(post.author as any).role}</span>
+                )}
+              </div>
             </div>
           )}
         </header>
