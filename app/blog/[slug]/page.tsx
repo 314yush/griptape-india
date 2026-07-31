@@ -6,6 +6,8 @@ import { getPost, getAllPosts } from "@/lib/sanity/queries";
 import { urlFor } from "@/lib/sanity/image";
 import "../blog.css";
 
+export const revalidate = 60;
+
 export async function generateStaticParams() {
   const posts = await getAllPosts();
   return posts.map((post) => ({ slug: post.slug.current }));

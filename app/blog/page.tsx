@@ -4,6 +4,8 @@ import { getAllPosts, type Post } from "@/lib/sanity/queries";
 import { urlFor } from "@/lib/sanity/image";
 import "./blog.css";
 
+export const revalidate = 60;
+
 function formatDate(dateString: string) {
   return new Date(dateString).toLocaleDateString("en-IN", {
     day: "numeric",
