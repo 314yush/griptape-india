@@ -1,6 +1,7 @@
 /* ============================================
-   GRIPTAPE INDIA MAG — Magazine Design System
-   Palette from the physical print edition
+   GRIPTAPE INDIA MAG — Print Magazine Design
+   Colours, type, and illustration system from
+   the physical Issue 1 printed edition.
    ============================================ */
 
 :root {
@@ -9,16 +10,6 @@
   --mag-orange: #E54B1A;
   --mag-green:  #1A5C3B;
   --mag-gold:   #F0A018;
-  --mag-pink:   #F5B8C8;
-}
-
-/* ---- BLOB decoration (gold ovals like the footprints) ---- */
-.blob {
-  display: inline-block;
-  background: var(--mag-gold);
-  border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%;
-  opacity: 0.92;
-  flex-shrink: 0;
 }
 
 /* ---- BLOG LISTING PAGE ---- */
@@ -29,66 +20,59 @@
   font-family: 'Inter Tight', system-ui, sans-serif;
 }
 
-/* Header — white, like the magazine pages */
+/* Two-column magazine spread layout:
+   LEFT  = mountain illustration
+   RIGHT = heading + subtext
+   Mirrors the "Why Griptape?" spread in the printed edition */
 .blog-header {
+  display: flex;
+  align-items: stretch;
   background: var(--mag-white);
-  color: var(--mag-black);
-  padding: 72px 48px 64px;
   border-bottom: 3px solid var(--mag-black);
-  position: relative;
+  min-height: 420px;
   overflow: hidden;
 }
 
-.blog-header-inner {
-  position: relative;
-  z-index: 1;
-  max-width: 1120px;
-  margin: 0 auto;
-}
-
-/* Scattered gold blobs in the header background */
-.blog-header-blobs {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
+.blog-header-illo {
+  width: 42%;
+  flex-shrink: 0;
+  border-right: 3px solid var(--mag-black);
   overflow: hidden;
+  background: var(--mag-white);
 }
 
-.blog-header-blobs .blob {
-  position: absolute;
+.mountain-illo {
+  width: 100%;
+  height: 100%;
+  min-height: 420px;
+  display: block;
 }
 
-.blog-header-blobs .b1 { width: 38px; height: 24px; top: 18%;  right: 12%; transform: rotate(-20deg); }
-.blog-header-blobs .b2 { width: 28px; height: 18px; top: 42%;  right: 7%;  transform: rotate(15deg); }
-.blog-header-blobs .b3 { width: 22px; height: 14px; top: 62%;  right: 14%; transform: rotate(-5deg); }
-.blog-header-blobs .b4 { width: 44px; height: 28px; top: 10%;  right: 22%; transform: rotate(30deg); }
-.blog-header-blobs .b5 { width: 18px; height: 12px; top: 78%;  right: 9%;  transform: rotate(-15deg); }
-.blog-header-blobs .b6 { width: 32px; height: 20px; top: 28%;  right: 30%; transform: rotate(10deg); }
-
-.blog-issue {
-  font-style: italic;
-  font-size: 15px;
-  opacity: 0.45;
-  margin: 0 0 10px;
-  letter-spacing: 0.01em;
+/* Text column — left-aligned, bottom-anchored like the magazine cover */
+.blog-header-text {
+  flex: 1;
+  padding: 56px 52px 56px 56px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 .blog-heading {
   font-family: 'Bricolage Grotesque', system-ui, sans-serif;
   font-weight: 800;
-  font-size: clamp(48px, 7vw, 96px);
+  font-size: clamp(44px, 6.5vw, 88px);
   letter-spacing: -0.03em;
-  line-height: 0.92;
+  line-height: 0.9;
   color: var(--mag-black);
-  margin: 0 0 24px;
+  margin: 0 0 28px;
 }
 
 .blog-sub {
   font-size: 17px;
   opacity: 0.6;
-  max-width: 480px;
+  max-width: 400px;
   margin: 0;
-  line-height: 1.65;
+  line-height: 1.7;
 }
 
 /* ---- POST GRID ---- */
@@ -113,13 +97,14 @@
   display: flex;
   flex-direction: column;
   border: 2px solid var(--mag-black);
-  border-radius: 6px;
+  border-radius: 4px;
   overflow: hidden;
   background: var(--mag-white);
+  /* Orange offset shadow — like the print's bold graphic energy */
   box-shadow: 5px 5px 0 var(--mag-orange);
   text-decoration: none;
   color: inherit;
-  transition: transform 0.15s, box-shadow 0.15s;
+  transition: transform 0.14s, box-shadow 0.14s;
 }
 
 .blog-card:hover {
@@ -130,33 +115,30 @@
 .blog-card-image {
   position: relative;
   height: 220px;
-  background: var(--mag-orange);
   border-bottom: 2px solid var(--mag-black);
   flex-shrink: 0;
   overflow: hidden;
+  background: var(--mag-orange);
 }
 
-.blog-card-img {
-  object-fit: cover;
-}
+.blog-card-img { object-fit: cover; }
 
-/* Placeholder uses the diagonal pattern from the "Building a game" spread */
+/* Diagonal stripe placeholder — from the "Building a game" spread */
 .blog-card-img-placeholder {
   width: 100%;
   height: 100%;
-  background:
-    repeating-linear-gradient(
-      45deg,
-      var(--mag-orange) 0px,
-      var(--mag-orange) 18px,
-      #c93a0e 18px,
-      #c93a0e 36px
-    );
-  opacity: 0.75;
+  background: repeating-linear-gradient(
+    45deg,
+    var(--mag-orange) 0px,
+    var(--mag-orange) 20px,
+    #c03410 20px,
+    #c03410 40px
+  );
+  opacity: 0.72;
 }
 
 .blog-card-body {
-  padding: 24px 26px 28px;
+  padding: 22px 24px 26px;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -164,9 +146,9 @@
 }
 
 .blog-card-date {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--mag-orange);
 }
@@ -182,9 +164,9 @@
 }
 
 .blog-card-excerpt {
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.65;
-  opacity: 0.58;
+  opacity: 0.56;
   margin: 4px 0 0;
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -197,8 +179,7 @@
   font-weight: 700;
   color: var(--mag-green);
   margin-top: auto;
-  padding-top: 14px;
-  letter-spacing: 0.01em;
+  padding-top: 12px;
 }
 
 /* ---- SINGLE POST PAGE ---- */
@@ -215,17 +196,18 @@
 }
 
 .post-back-link {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
   color: var(--mag-orange);
   text-decoration: none;
-  letter-spacing: 0.02em;
-  transition: opacity 0.15s;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: opacity 0.14s;
 }
 
-.post-back-link:hover { opacity: 0.65; }
+.post-back-link:hover { opacity: 0.6; }
 
-/* Cover image */
+/* Cover photo */
 .post-cover {
   position: relative;
   height: clamp(260px, 42vw, 520px);
@@ -234,42 +216,35 @@
 
 .post-cover-img { object-fit: cover; }
 
-/* Article container */
+/* Article content */
 .post-article {
   max-width: 760px;
   margin: 0 auto;
-  padding: 64px 48px 100px;
+  padding: 0 48px 100px;
 }
 
-/* Header with gold blob decoration top-right */
+/* Article header — date + title + byline
+   The blob cluster SVG sits top-right, like every article spread in the magazine */
 .post-header {
   position: relative;
-  margin-bottom: 40px;
-  padding-bottom: 36px;
+  padding: 56px 0 36px;
+  margin-bottom: 0;
   border-bottom: 3px solid var(--mag-black);
 }
 
-.post-header-blobs {
+/* Gold blob cluster — positioned top right of the header, overflowing slightly */
+.blob-cluster {
   position: absolute;
-  top: -8px;
+  top: 16px;
   right: -16px;
-  width: 120px;
-  height: 140px;
+  width: 180px;
+  height: 160px;
   pointer-events: none;
 }
 
-.post-header-blobs .blob {
-  position: absolute;
-}
-
-.post-header-blobs .b1 { width: 36px; height: 22px; top: 0;    right: 10px; transform: rotate(-15deg); }
-.post-header-blobs .b2 { width: 28px; height: 17px; top: 30px; right: 48px; transform: rotate(20deg); }
-.post-header-blobs .b3 { width: 22px; height: 14px; top: 58px; right: 8px;  transform: rotate(-5deg); }
-.post-header-blobs .b4 { width: 18px; height: 11px; top: 80px; right: 36px; transform: rotate(12deg); }
-
 .post-date {
   display: block;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -280,11 +255,13 @@
 .post-title {
   font-family: 'Bricolage Grotesque', system-ui, sans-serif;
   font-weight: 800;
-  font-size: clamp(34px, 5.5vw, 60px);
+  font-size: clamp(32px, 5.5vw, 58px);
   letter-spacing: -0.03em;
-  line-height: 0.96;
+  line-height: 0.95;
   margin: 0 0 24px;
   color: var(--mag-black);
+  /* Leave space so title doesn't run into the blob cluster */
+  padding-right: 140px;
 }
 
 .post-byline {
@@ -308,13 +285,12 @@
 .post-byline-text {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 2px;
 }
 
 .post-byline-name {
   font-size: 14px;
   font-weight: 800;
-  letter-spacing: 0.01em;
   color: var(--mag-black);
 }
 
@@ -324,38 +300,36 @@
   opacity: 0.5;
 }
 
-/* Excerpt — the italic bold subheadline from the magazine */
+/* Excerpt — the italic bold subheadline from every article spread */
 .post-excerpt {
   font-family: 'Bricolage Grotesque', system-ui, sans-serif;
-  font-size: 22px;
+  font-size: 21px;
   font-weight: 700;
   font-style: italic;
   line-height: 1.45;
   color: var(--mag-black);
-  opacity: 0.72;
-  margin: 0 0 40px;
-  padding-left: 18px;
+  opacity: 0.75;
+  margin: 36px 0 40px;
+  padding-left: 20px;
   border-left: 5px solid var(--mag-gold);
 }
 
-/* ---- POST BODY ---- */
+/* ---- POST BODY — editorial text ---- */
 .post-body { line-height: 1.8; }
 
 .post-p {
   font-size: 18px;
   line-height: 1.8;
   margin: 0 0 22px;
-  color: var(--mag-black);
 }
 
 .post-h2 {
   font-family: 'Bricolage Grotesque', system-ui, sans-serif;
   font-weight: 800;
-  font-size: 32px;
+  font-size: 30px;
   letter-spacing: -0.025em;
-  margin: 52px 0 16px;
+  margin: 52px 0 14px;
   line-height: 1.05;
-  color: var(--mag-black);
 }
 
 .post-h3 {
@@ -363,21 +337,19 @@
   font-weight: 800;
   font-size: 22px;
   letter-spacing: -0.02em;
-  margin: 38px 0 12px;
+  margin: 38px 0 10px;
   line-height: 1.2;
-  color: var(--mag-black);
 }
 
-/* Blockquote — green left border like the champion article */
+/* Blockquote — green left border, like the champion article */
 .post-blockquote {
   border-left: 5px solid var(--mag-green);
   margin: 36px 0;
-  padding: 14px 24px;
+  padding: 12px 22px;
   font-size: 20px;
   font-style: italic;
   font-weight: 600;
   line-height: 1.55;
-  color: var(--mag-black);
 }
 
 .post-link {
@@ -386,13 +358,11 @@
   text-underline-offset: 3px;
 }
 
-.post-figure {
-  margin: 44px 0;
-}
+.post-figure { margin: 44px 0; }
 
 .post-figure-img {
   position: relative;
-  height: clamp(200px, 40vw, 460px);
+  height: clamp(200px, 40vw, 440px);
   border-radius: 4px;
   overflow: hidden;
   border: 2px solid var(--mag-black);
@@ -408,15 +378,54 @@
   margin-top: 10px;
 }
 
+/* ---- CLOSING ILLUSTRATION
+   Clasped hands (orange + green) — mirrors the Shriya Karanam article
+   ending in the printed magazine                               ---- */
+.post-closing {
+  margin-top: 64px;
+  padding-top: 48px;
+  border-top: 3px solid var(--mag-black);
+  overflow: hidden;
+}
+
+.clasped-hands {
+  width: 100%;
+  max-width: 520px;
+  display: block;
+  margin: 0 auto;
+}
+
 /* ---- MOBILE ---- */
-@media (max-width: 640px) {
-  .blog-header          { padding: 48px 24px 40px; }
-  .blog-header-blobs .b4,
-  .blog-header-blobs .b6 { display: none; }
-  .blog-grid            { grid-template-columns: 1fr; padding: 40px 20px; gap: 24px; }
-  .blog-empty           { padding: 72px 20px; }
-  .post-article         { padding: 40px 20px 72px; }
-  .post-back            { padding: 14px 20px; }
-  .post-header-blobs    { display: none; }
-  .post-excerpt         { font-size: 18px; }
+@media (max-width: 700px) {
+  .blog-header {
+    flex-direction: column;
+    min-height: auto;
+  }
+
+  .blog-header-illo {
+    width: 100%;
+    border-right: none;
+    border-bottom: 3px solid var(--mag-black);
+    max-height: 280px;
+    overflow: hidden;
+  }
+
+  .mountain-illo { min-height: 280px; }
+
+  .blog-header-text {
+    padding: 36px 24px 44px;
+    justify-content: flex-start;
+  }
+
+  .blog-heading { font-size: clamp(40px, 10vw, 56px); }
+
+  .blog-grid   { grid-template-columns: 1fr; padding: 36px 20px; gap: 24px; }
+  .blog-empty  { padding: 64px 20px; }
+  .post-article { padding: 0 20px 72px; }
+  .post-back   { padding: 14px 20px; }
+  .post-header { padding: 36px 0 28px; }
+  .post-title  { font-size: clamp(28px, 8vw, 40px); padding-right: 0; }
+  .blob-cluster { display: none; }
+  .post-excerpt { font-size: 18px; }
+  .clasped-hands { max-width: 100%; }
 }
