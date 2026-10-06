@@ -65,6 +65,9 @@ export default function HomePage() {
             <li>
               <Link href="/blog">Magazine</Link>
             </li>
+            <li>
+              <Link href="/community">Community</Link>
+            </li>
           </ul>
           <details className="nav-mobile-menu">
             <summary className="nav-mobile-toggle">
@@ -84,6 +87,9 @@ export default function HomePage() {
                 </li>
                 <li>
                   <Link href="/blog">Magazine</Link>
+                </li>
+                <li>
+                  <Link href="/community">Community</Link>
                 </li>
                 <li>
                   <a href="#stories">Stories</a>
