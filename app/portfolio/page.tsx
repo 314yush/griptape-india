@@ -16,11 +16,8 @@ export default function PortfolioLanding() {
           badges, and one button turns it all into a portfolio PDF you can send to anyone.
         </p>
         <div className="gtp-hero-cta">
-          <Link href="/portfolio/login?mode=signup" className="gtp-btn gtp-btn-orange">
-            Start my portfolio
-          </Link>
-          <Link href="/portfolio/login" className="gtp-btn gtp-btn-ghost">
-            I already have one
+          <Link href="/portfolio/login" className="gtp-btn gtp-btn-orange">
+            Sign in
           </Link>
           <Link href="/portfolio/demo" className="gtp-btn gtp-btn-yellow">
             See a demo
@@ -30,7 +27,7 @@ export default function PortfolioLanding() {
 
       <section className="gtp-steps">
         {[
-          ["01", "Sign up", "Get your own Griptape ID, like GT-7K2M9Q. You log in with it, and it's on your PDF."],
+          ["01", "Sign in", "Pick your cohort, type your name and use your cohort password. That's it."],
           ["02", "Log your work", "What you did, how you did it, hours, proof. Your summary updates itself."],
           ["03", "Level up", "Badges arrive on their own, based on the skills your work shows."],
           ["04", "Download", "One click gives you a PDF portfolio with your name, projects and badges."],

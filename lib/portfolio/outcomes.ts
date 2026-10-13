@@ -229,27 +229,34 @@ function joinList(items: string[]) {
 /** The short narrative at the top of a profile, like a mentor's summary. */
 export function summaryFor(profile: Profile, entries: Entry[]) {
   const first = profile.full_name.split(" ")[0];
+  const pursuit = profile.pursuit?.trim().replace(/[.!]+$/, "");
   if (!entries.length) {
-    return `${first} is just getting started${profile.pursuit ? ` on ${profile.pursuit}` : ""}. Their first entry will show up here.`;
+    return `${first} is just getting started${pursuit ? ` on ${lowerFirst(pursuit)}` : ""}. Their work will show up here as they add it.`;
   }
   const hours = Math.round(totalHours(entries));
-  const areas = [...new Set(entries.map((e) => e.area).filter(Boolean))] as string[];
+  const latest = [...entries].sort((a, b) => b.entry_date.localeCompare(a.entry_date))[0];
   const strongest = outcomeProgress(entries)
     .filter((p) => p.count > 0)
     .sort((a, b) => b.count - a.count)
     .slice(0, 2)
-    .map((p) => p.outcome.name.toLowerCase());
+    .map((p) => p.outcome.name);
   const shipped = entries.filter((e) => e.stage === "shipped").length;
 
   const parts = [
-    `${first} is chasing ${profile.pursuit || "a pursuit they chose"}${areas.length ? `, working across ${joinList(areas.slice(0, 3).map((a) => a.toLowerCase()))}` : ""}.`,
-    `So far they've logged ${entries.length} ${entries.length === 1 ? "entry" : "entries"} and put in ${hours} ${hours === 1 ? "hour" : "hours"}${shipped ? `, and shipped ${shipped} ${shipped === 1 ? "thing" : "things"} for others to see` : ""}.`,
+    pursuit ? `${first} is working on ${lowerFirst(pursuit)}.` : `${first} is working on a project of their own.`,
+    `Most recently: ${latest.title.replace(/[.!]+$/, "")}.`,
+    `Across ${entries.length} ${entries.length === 1 ? "piece" : "pieces"} of work and ${hours} ${hours === 1 ? "hour" : "hours"}${
+      shipped ? `, they've shipped ${shipped} ${shipped === 1 ? "project" : "projects"} for others to see` : ""
+    }${strongest.length ? `, showing the most ${joinList(strongest)}` : ""}.`,
   ];
-  if (strongest.length)
-    parts.push(
-      strongest.length === 1
-        ? `The skill they use most is ${strongest[0]}.`
-        : `The skills they use most are ${joinList(strongest)}.`
-    );
   return parts.join(" ");
+}
+
+function lowerFirst(s: string) {
+  // "Building a game" → "building a game", but keep "I", acronyms and names like "Bengaluru"
+  return /^[A-Z][a-z]/.test(s) && !/^I\b/.test(s) ? s[0].toLowerCase() + s.slice(1) : s;
+}
+
+export function formatDate(d: string) {
+  return new Date(d + "T00:00:00").toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
 }

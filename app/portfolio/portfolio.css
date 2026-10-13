@@ -241,3 +241,18 @@
 .gtp-summary-top { margin-bottom: 24px; }
 .gtp-summary-top p { font-size: 16.5px; }
 .gtp-owner-bar.is-demo { background: var(--yellow); border-style: solid; }
+.gtp-readonly { margin: 0; padding: 12px 14px; background: var(--cream); border: 2px dashed #c9b99c; border-radius: 12px; display: flex; flex-direction: column; gap: 2px; }
+.gtp-readonly small { color: #6b6255; font-size: 12.5px; }
+
+/* main-site Projects page */
+.gtp-projects-hero { text-align: center; max-width: 720px; margin: 0 auto 28px; }
+.gtp-projects-hero h1 { font-size: clamp(44px, 8vw, 80px); font-weight: 800; line-height: 1; margin: 6px 0 14px; }
+.gtp-projects-count { display: inline-block; margin: 0; padding: 4px 14px; border: 2px solid var(--ink); border-radius: 999px; background: var(--yellow); font-weight: 700; font-size: 14px; }
+.gtp-filter { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 32px; }
+.gtp-filter a { text-decoration: none; font-weight: 600; font-size: 14px; padding: 6px 14px; border: 2px solid var(--ink); border-radius: 999px; background: #fff; }
+.gtp-filter a.on { background: var(--ink); color: var(--cream); }
+.gtp-learner-block { margin-bottom: 44px; }
+.gtp-learner-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; flex-wrap: wrap; border-bottom: 2px solid var(--ink); padding-bottom: 10px; margin-bottom: 16px; }
+.gtp-learner-head h2 { font-size: 28px; }
+.gtp-learner-head p { margin: 2px 0 0; font-weight: 600; }
+.gtp-signin-form select { cursor: pointer; }

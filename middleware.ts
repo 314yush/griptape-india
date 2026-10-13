@@ -1,8 +1,27 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
+// The learner portfolio runs as its own site on this hostname (same app and database).
+// portfolio.griptapeindia.org/me → /portfolio/me, etc. Set PORTFOLIO_HOST to change it.
+const PORTFOLIO_HOST = process.env.PORTFOLIO_HOST ?? "portfolio.griptapeindia.org";
+
+function portfolioRewrite(request: NextRequest): URL | null {
+  const host = request.headers.get("host")?.split(":")[0];
+  const { pathname } = request.nextUrl;
+  if (host !== PORTFOLIO_HOST) return null;
+  if (/^\/(portfolio|api|auth|_next)(\/|$)/.test(pathname) || /\.[a-z0-9]+$/i.test(pathname)) return null;
+  const url = request.nextUrl.clone();
+  url.pathname = `/portfolio${pathname === "/" ? "" : pathname}`;
+  return url;
+}
+
 export async function middleware(request: NextRequest) {
-  let response = NextResponse.next({ request: { headers: request.headers } });
+  const rewriteTo = portfolioRewrite(request);
+  const pass = () =>
+    rewriteTo
+      ? NextResponse.rewrite(rewriteTo, { request: { headers: request.headers } })
+      : NextResponse.next({ request: { headers: request.headers } });
+  let response = pass();
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -14,12 +33,12 @@ export async function middleware(request: NextRequest) {
         },
         set(name: string, value: string, options: CookieOptions) {
           request.cookies.set({ name, value, ...options });
-          response = NextResponse.next({ request: { headers: request.headers } });
+          response = pass();
           response.cookies.set({ name, value, ...options });
         },
         remove(name: string, options: CookieOptions) {
           request.cookies.set({ name, value: "", ...options });
-          response = NextResponse.next({ request: { headers: request.headers } });
+          response = pass();
           response.cookies.set({ name, value: "", ...options });
         },
       },

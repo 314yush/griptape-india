@@ -18,7 +18,7 @@ export default function PortfolioLayout({ children }: { children: React.ReactNod
         <div className="gtp-nav-links">
           <Link href="/portfolio">How it works</Link>
           <Link href="/portfolio/me" className="gtp-btn gtp-btn-ink gtp-btn-sm">
-            My portfolio
+            Sign in
           </Link>
         </div>
       </nav>

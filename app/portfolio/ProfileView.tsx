@@ -8,6 +8,7 @@ import {
   gripPoints,
   levelFor,
   milestones,
+  formatDate,
   outcomeProgress,
   TIERS,
   summaryFor,
@@ -25,13 +26,6 @@ function initials(name: string) {
     .join("");
 }
 
-export function formatDate(d: string) {
-  return new Date(d + "T00:00:00").toLocaleDateString("en-IN", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  });
-}
 
 function Heatmap({ entries }: { entries: Entry[] }) {
   const { weeks, months } = useMemo(() => {

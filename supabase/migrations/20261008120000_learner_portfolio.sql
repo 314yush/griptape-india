@@ -8,9 +8,12 @@
 -- Safe to re-run: everything is IF NOT EXISTS / CREATE OR REPLACE / DROP ... IF EXISTS.
 --
 -- MODEL
---   • Learners sign up and log in with their learner ID (e.g. GT-7K2M9Q) + password.
---     The auth user's email is a placeholder: gt-7k2m9q@learner.invalid.
---   • learner_profiles: one row per auth user, created by /api/portfolio/signup.
+--   • Learners sign in with: their cohort + their full name + that cohort's shared
+--     password (one password per cohort, stored hashed in public.cohorts).
+--     The first sign-in creates their portfolio. /api/portfolio/signin does this.
+--   • Each learner still gets a learner ID (e.g. GT-7K2M9Q) for their public link and PDF.
+--     The auth user's email is a placeholder: gt-7k2m9q@learner.invalid (never emailed).
+--   • learner_profiles: one row per auth user, unique per (cohort, name).
 --     summary is written by the server after each new entry.
 --   • portfolio_entries: what the learner did and how they did it. outcomes holds
 --     the skills detected by the server (/api/portfolio/entries); badges are computed
@@ -49,7 +52,8 @@ CREATE TABLE IF NOT EXISTS public.learner_profiles (
   pursuit text,          -- "the one thing" they're chasing
   bio text,
   city text,
-  cohort text,           -- e.g. "Learning Challenge 6"
+  cohort text,           -- display name, e.g. "Cohort 6"
+  cohort_id integer,
   is_public boolean NOT NULL DEFAULT true,
   summary text,
   created_at timestamptz NOT NULL DEFAULT now(),
@@ -57,6 +61,11 @@ CREATE TABLE IF NOT EXISTS public.learner_profiles (
 );
 
 ALTER TABLE public.learner_profiles ADD COLUMN IF NOT EXISTS summary text;
+ALTER TABLE public.learner_profiles ADD COLUMN IF NOT EXISTS cohort_id integer;
+ALTER TABLE public.learner_profiles ADD COLUMN IF NOT EXISTS name_key text;  -- lower-cased, single-spaced name for sign-in
+
+CREATE UNIQUE INDEX IF NOT EXISTS learner_profiles_cohort_name
+  ON public.learner_profiles (cohort_id, name_key);
 
 -- Default can't reference the table before it exists, so set it afterwards
 ALTER TABLE public.learner_profiles
@@ -135,5 +144,62 @@ CREATE POLICY "learner deletes own entries"
 -- (The service role bypasses these; it's what the server routes use.)
 REVOKE INSERT, UPDATE ON public.portfolio_entries FROM anon, authenticated;
 REVOKE INSERT, UPDATE ON public.learner_profiles FROM anon, authenticated;
-GRANT UPDATE (full_name, pursuit, bio, city, cohort, is_public)
+-- Name and cohort are how learners sign in, so only staff change them
+GRANT UPDATE (pursuit, bio, city, is_public)
   ON public.learner_profiles TO authenticated;
+
+
+-- ---------------------------------------------------------------------------
+-- Cohorts and their shared sign-in passwords
+-- ---------------------------------------------------------------------------
+CREATE EXTENSION IF NOT EXISTS pgcrypto WITH SCHEMA extensions;
+
+CREATE TABLE IF NOT EXISTS public.cohorts (
+  id integer PRIMARY KEY,
+  name text NOT NULL,
+  password_hash text,     -- bcrypt; NULL = sign-in closed for this cohort
+  is_open boolean NOT NULL DEFAULT true
+);
+
+INSERT INTO public.cohorts (id, name) VALUES
+  (1, 'Cohort 1'), (2, 'Cohort 2'), (3, 'Cohort 3'),
+  (4, 'Cohort 4'), (5, 'Cohort 5'), (6, 'Cohort 6')
+ON CONFLICT (id) DO NOTHING;
+
+ALTER TABLE public.cohorts ENABLE ROW LEVEL SECURITY;
+-- Anyone may see the cohort list (for the sign-in dropdown), never the hashes
+DROP POLICY IF EXISTS "cohort names readable" ON public.cohorts;
+CREATE POLICY "cohort names readable" ON public.cohorts FOR SELECT USING (true);
+REVOKE ALL ON public.cohorts FROM anon, authenticated;
+GRANT SELECT (id, name, is_open) ON public.cohorts TO anon, authenticated;
+
+-- Staff: set or change a cohort password from the SQL Editor, e.g.
+--   SELECT public.set_cohort_password(1, 'sunflower-42');
+CREATE OR REPLACE FUNCTION public.set_cohort_password(p_cohort integer, p_password text)
+RETURNS void
+LANGUAGE sql
+SECURITY DEFINER
+SET search_path = public, extensions
+AS $$
+  UPDATE public.cohorts
+  SET password_hash = crypt(p_password, gen_salt('bf'))
+  WHERE id = p_cohort;
+$$;
+
+-- Server-only check used by /api/portfolio/signin
+CREATE OR REPLACE FUNCTION public.check_cohort_password(p_cohort integer, p_password text)
+RETURNS boolean
+LANGUAGE sql
+STABLE
+SECURITY DEFINER
+SET search_path = public, extensions
+AS $$
+  SELECT coalesce(
+    (SELECT is_open AND password_hash IS NOT NULL AND password_hash = crypt(p_password, password_hash)
+     FROM public.cohorts WHERE id = p_cohort),
+    false);
+$$;
+
+REVOKE ALL ON FUNCTION public.set_cohort_password(integer, text) FROM PUBLIC, anon, authenticated;
+REVOKE ALL ON FUNCTION public.check_cohort_password(integer, text) FROM PUBLIC, anon, authenticated;
+REVOKE ALL ON FUNCTION public.gen_learner_id() FROM PUBLIC, anon, authenticated;

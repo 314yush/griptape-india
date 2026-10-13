@@ -250,11 +250,9 @@ function ProfileForm({
   onCancel?: () => void;
 }) {
   const [form, setForm] = useState({
-    full_name: initial?.full_name ?? suggestedName,
     pursuit: initial?.pursuit ?? "",
     bio: initial?.bio ?? "",
     city: initial?.city ?? "",
-    cohort: initial?.cohort ?? "",
     is_public: initial?.is_public ?? true,
   });
   const [busy, setBusy] = useState(false);
@@ -268,21 +266,16 @@ function ProfileForm({
     setError(null);
     const payload = {
       ...form,
-      full_name: form.full_name.trim(),
       pursuit: form.pursuit.trim() || null,
       bio: form.bio.trim() || null,
       city: form.city.trim() || null,
-      cohort: form.cohort.trim() || null,
     };
     if (demo && initial) {
       setBusy(false);
       return onSaved({ ...initial, ...payload });
     }
     const sb = createClient();
-    const q = initial
-      ? sb.from("learner_profiles").update(payload).eq("user_id", userId)
-      : sb.from("learner_profiles").insert({ ...payload, user_id: userId });
-    const { data, error } = await q.select().single();
+    const { data, error } = await sb.from("learner_profiles").update(payload).eq("user_id", userId).select().single();
     setBusy(false);
     if (error) return setError(error.message);
     onSaved(data as Profile);
@@ -293,10 +286,10 @@ function ProfileForm({
       <form className="gtp-auth-card gtp-form gtp-wide" onSubmit={submit}>
         <h1>{initial ? "Edit your profile" : "Set up your portfolio"}</h1>
         {!initial ? <p className="gtp-muted">This is what people see at the top of your portfolio and your PDF.</p> : null}
-        <label>
-          Full name
-          <input required value={form.full_name} onChange={set("full_name")} />
-        </label>
+        <p className="gtp-readonly">
+          <b>{initial?.full_name || suggestedName}</b> · {initial?.cohort ?? "No cohort"}
+          <small>You sign in with this name and cohort. To change them, ask your champion.</small>
+        </p>
         <label>
           The one thing you&apos;re chasing
           <input value={form.pursuit} onChange={set("pursuit")} placeholder="e.g. Building a mobile game, learning to DJ, starting a bakery" />
@@ -305,16 +298,10 @@ function ProfileForm({
           A line about you
           <textarea rows={3} value={form.bio} onChange={set("bio")} placeholder="Who are you, and why does this matter to you?" />
         </label>
-        <div className="gtp-form-row">
-          <label>
-            City
-            <input value={form.city} onChange={set("city")} placeholder="Bengaluru" />
-          </label>
-          <label>
-            Cohort
-            <input value={form.cohort} onChange={set("cohort")} placeholder="Learning Challenge 6" />
-          </label>
-        </div>
+        <label>
+          City
+          <input value={form.city} onChange={set("city")} placeholder="Bengaluru" />
+        </label>
         <label className="gtp-check">
           <input type="checkbox" checked={form.is_public} onChange={set("is_public")} />
           Anyone with my link can see my portfolio

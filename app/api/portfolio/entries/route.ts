@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
+import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase-server";
 import { createAdminClient } from "@/lib/supabase-admin";
 import { analyzePortfolio } from "@/lib/portfolio/auto";
@@ -73,6 +74,7 @@ async function save(request: NextRequest, mode: "create" | "update") {
     return NextResponse.json({ error: "Couldn't save. Please try again." }, { status: 500 });
   }
   await ctx.admin.from("learner_profiles").update({ summary }).eq("user_id", ctx.userId);
+  revalidatePath("/projects");
   return NextResponse.json({ entry, summary });
 }
 
@@ -91,5 +93,6 @@ export async function DELETE(request: NextRequest) {
   const rest = ctx.entries.filter((e) => e.id !== id);
   const { summary } = await analyzePortfolio(ctx.profile, rest, null);
   await ctx.admin.from("learner_profiles").update({ summary }).eq("user_id", ctx.userId);
+  revalidatePath("/projects");
   return NextResponse.json({ summary });
 }
