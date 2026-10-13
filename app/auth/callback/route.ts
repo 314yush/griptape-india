@@ -14,6 +14,7 @@ export async function GET(request: NextRequest) {
     }
   }
 
-  // Something went wrong — send them back to /apply with an error flag
-  return NextResponse.redirect(`${origin}/apply?error=auth_failed`);
+  // Something went wrong — send them back to where they started with an error flag
+  const fallback = next.startsWith("/portfolio") ? "/portfolio/login" : "/apply";
+  return NextResponse.redirect(`${origin}${fallback}?error=auth_failed`);
 }
