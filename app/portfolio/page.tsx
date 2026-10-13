@@ -22,6 +22,9 @@ export default function PortfolioLanding() {
           <Link href="/portfolio/login" className="gtp-btn gtp-btn-ghost">
             I already have one
           </Link>
+          <Link href="/portfolio/demo" className="gtp-btn gtp-btn-yellow">
+            See a demo
+          </Link>
         </div>
       </section>
 

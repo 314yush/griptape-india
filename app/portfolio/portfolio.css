@@ -240,3 +240,4 @@
 @keyframes gtp-fresh { 0% { background: var(--yellow); transform: scale(1.015); } 100% { background: var(--paper); transform: none; } }
 .gtp-summary-top { margin-bottom: 24px; }
 .gtp-summary-top p { font-size: 16.5px; }
+.gtp-owner-bar.is-demo { background: var(--yellow); border-style: solid; }

@@ -8,10 +8,12 @@ import {
   STAGES,
   milestones,
   outcomeProgress,
+  summaryFor,
   type Entry,
   type Profile,
   type Stage,
 } from "@/lib/portfolio/outcomes";
+import { keywordSkills } from "@/lib/portfolio/keywords";
 import ProfileView from "../ProfileView";
 import PdfButton from "../PdfButton";
 import Badge, { type Glyph } from "../Badge";
@@ -53,11 +55,14 @@ export default function DashboardClient({
   suggestedName,
   initialProfile,
   initialEntries,
+  demo = false,
 }: {
   userId: string;
   suggestedName: string;
   initialProfile: Profile | null;
   initialEntries: Entry[];
+  /** Sample portfolio: everything happens in the browser and nothing is saved. */
+  demo?: boolean;
 }) {
   const router = useRouter();
   const sb = createClient();
@@ -70,7 +75,7 @@ export default function DashboardClient({
   const [summaryVersion, setSummaryVersion] = useState(0);
 
   async function logout() {
-    await sb.auth.signOut();
+    if (!demo) await sb.auth.signOut();
     router.push("/portfolio");
     router.refresh();
   }
@@ -84,6 +89,12 @@ export default function DashboardClient({
 
   async function deleteEntry(entry: Entry) {
     if (!confirm(`Delete “${entry.title}”? This can't be undone.`)) return;
+    if (demo) {
+      const rest = entries.filter((e) => e.id !== entry.id);
+      setEntries(rest);
+      setProfile((p) => (p ? { ...p, summary: summaryFor(p, rest) } : p));
+      return;
+    }
     const res = await fetch(`/api/portfolio/entries?id=${entry.id}`, { method: "DELETE" });
     const data = await res.json();
     if (!res.ok) return alert(data.error);
@@ -97,7 +108,7 @@ export default function DashboardClient({
     );
     setUnlocks(newUnlocks(entries, next));
     setEntries(next);
-    setProfile((p) => (p ? { ...p, summary } : p));
+    setProfile((p) => (p ? { ...p, summary: demo ? summaryFor(p, next) : summary } : p));
     setSummaryVersion((v) => v + 1);
     setEntryForm(null);
   }
@@ -108,6 +119,7 @@ export default function DashboardClient({
         userId={userId}
         initial={profile}
         suggestedName={suggestedName}
+        demo={demo}
         onCancel={profile ? () => setEditingProfile(false) : undefined}
         onSaved={(p) => {
           setProfile(p);
@@ -119,22 +131,30 @@ export default function DashboardClient({
 
   return (
     <>
-      <div className="gtp-owner-bar">
-        <span>
-          Your public link:{" "}
-          <a href={`/portfolio/u/${profile.learner_id}`} target="_blank">
-            /portfolio/u/{profile.learner_id}
-          </a>
-        </span>
+      <div className={`gtp-owner-bar${demo ? " is-demo" : ""}`}>
+        {demo ? (
+          <span>
+            <b>Demo portfolio.</b> Try adding, editing or deleting work. Nothing is saved.
+          </span>
+        ) : (
+          <span>
+            Your public link:{" "}
+            <a href={`/portfolio/u/${profile.learner_id}`} target="_blank">
+              /portfolio/u/{profile.learner_id}
+            </a>
+          </span>
+        )}
         <div>
-          <button className="gtp-link" onClick={copyLink}>
-            {copied ? "Copied!" : "Copy link"}
-          </button>
+          {demo ? null : (
+            <button className="gtp-link" onClick={copyLink}>
+              {copied ? "Copied!" : "Copy link"}
+            </button>
+          )}
           <button className="gtp-link" onClick={() => setEditingProfile(true)}>
             Edit profile
           </button>
           <button className="gtp-link" onClick={logout}>
-            Log out
+            {demo ? "Exit demo" : "Log out"}
           </button>
         </div>
       </div>
@@ -185,6 +205,7 @@ export default function DashboardClient({
           userId={userId}
           id={entryForm.id}
           initial={entryForm.draft}
+          demo={demo}
           onClose={() => setEntryForm(null)}
           onSaved={saveEntry}
         />
@@ -219,10 +240,12 @@ function ProfileForm({
   suggestedName,
   onSaved,
   onCancel,
+  demo = false,
 }: {
   userId: string;
   initial: Profile | null;
   suggestedName: string;
+  demo?: boolean;
   onSaved: (p: Profile) => void;
   onCancel?: () => void;
 }) {
@@ -251,6 +274,10 @@ function ProfileForm({
       city: form.city.trim() || null,
       cohort: form.cohort.trim() || null,
     };
+    if (demo && initial) {
+      setBusy(false);
+      return onSaved({ ...initial, ...payload });
+    }
     const sb = createClient();
     const q = initial
       ? sb.from("learner_profiles").update(payload).eq("user_id", userId)
@@ -314,10 +341,12 @@ function EntryForm({
   initial,
   onClose,
   onSaved,
+  demo = false,
 }: {
   userId: string;
   id: string | null;
   initial: EntryDraft;
+  demo?: boolean;
   onClose: () => void;
   onSaved: (e: Entry, summary: string) => void;
 }) {
@@ -330,6 +359,19 @@ function EntryForm({
     e.preventDefault();
     setBusy(true);
     setError(null);
+    if (demo) {
+      await new Promise((r) => setTimeout(r, 700));
+      const entry: Entry = {
+        ...d,
+        id: id ?? crypto.randomUUID(),
+        user_id: userId,
+        title: d.title.trim(),
+        hours: Number(d.hours) || 0,
+        outcomes: [],
+      };
+      setBusy(false);
+      return onSaved({ ...entry, outcomes: keywordSkills(entry) }, "");
+    }
     // The server works out the skills and rewrites the summary, so this can take a few seconds
     const res = await fetch(`/api/portfolio/entries${id ? `?id=${id}` : ""}`, {
       method: id ? "PATCH" : "POST",
