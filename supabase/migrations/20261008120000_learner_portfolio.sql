@@ -8,9 +8,12 @@
 -- Safe to re-run: everything is IF NOT EXISTS / CREATE OR REPLACE / DROP ... IF EXISTS.
 --
 -- MODEL
---   • Learners sign in with: their cohort + their full name + that cohort's shared
---     password (one password per cohort, stored hashed in public.cohorts).
---     The first sign-in creates their portfolio. /api/portfolio/signin does this.
+--   • Learners sign in with: cohort + full name + their own password.
+--     First time, they use the cohort's shared code (hashed in public.cohorts) and then
+--     choose their own password; that creates their portfolio. After that only their own
+--     password works. /api/portfolio/signin does all of this.
+--   • Forgot password: staff run SELECT public.reset_learner_password('GT-XXXXXX');
+--     the learner then uses the cohort code again to choose a new one.
 --   • Each learner still gets a learner ID (e.g. GT-7K2M9Q) for their public link and PDF.
 --     The auth user's email is a placeholder: gt-7k2m9q@learner.invalid (never emailed).
 --   • learner_profiles: one row per auth user, unique per (cohort, name).
@@ -63,6 +66,7 @@ CREATE TABLE IF NOT EXISTS public.learner_profiles (
 ALTER TABLE public.learner_profiles ADD COLUMN IF NOT EXISTS summary text;
 ALTER TABLE public.learner_profiles ADD COLUMN IF NOT EXISTS cohort_id integer;
 ALTER TABLE public.learner_profiles ADD COLUMN IF NOT EXISTS name_key text;  -- lower-cased, single-spaced name for sign-in
+ALTER TABLE public.learner_profiles ADD COLUMN IF NOT EXISTS password_set boolean NOT NULL DEFAULT false;
 
 CREATE UNIQUE INDEX IF NOT EXISTS learner_profiles_cohort_name
   ON public.learner_profiles (cohort_id, name_key);
@@ -150,14 +154,14 @@ GRANT UPDATE (pursuit, bio, city, is_public)
 
 
 -- ---------------------------------------------------------------------------
--- Cohorts and their shared sign-in passwords
+-- Cohorts and their shared first-time codes
 -- ---------------------------------------------------------------------------
 CREATE EXTENSION IF NOT EXISTS pgcrypto WITH SCHEMA extensions;
 
 CREATE TABLE IF NOT EXISTS public.cohorts (
   id integer PRIMARY KEY,
   name text NOT NULL,
-  password_hash text,     -- bcrypt; NULL = sign-in closed for this cohort
+  password_hash text,     -- bcrypt of the cohort code; NULL = new sign-ups closed
   is_open boolean NOT NULL DEFAULT true
 );
 
@@ -173,8 +177,9 @@ CREATE POLICY "cohort names readable" ON public.cohorts FOR SELECT USING (true);
 REVOKE ALL ON public.cohorts FROM anon, authenticated;
 GRANT SELECT (id, name, is_open) ON public.cohorts TO anon, authenticated;
 
--- Staff: set or change a cohort password from the SQL Editor, e.g.
+-- Staff: set or change a cohort code from the SQL Editor, e.g.
 --   SELECT public.set_cohort_password(1, 'sunflower-42');
+-- Changing it only affects first-time sign-ins; learners keep their own passwords.
 CREATE OR REPLACE FUNCTION public.set_cohort_password(p_cohort integer, p_password text)
 RETURNS void
 LANGUAGE sql
@@ -200,6 +205,21 @@ AS $$
     false);
 $$;
 
+-- Staff: let a learner who forgot their password choose a new one, e.g.
+--   SELECT public.reset_learner_password('GT-7K2M9Q');
+-- (Find IDs with: SELECT learner_id, full_name, cohort FROM learner_profiles ORDER BY cohort_id, full_name;)
+CREATE OR REPLACE FUNCTION public.reset_learner_password(p_learner_id text)
+RETURNS text
+LANGUAGE sql
+SECURITY DEFINER
+SET search_path = public
+AS $$
+  UPDATE public.learner_profiles SET password_set = false
+  WHERE learner_id = upper(p_learner_id)
+  RETURNING full_name || ' can now sign in with the cohort code and choose a new password';
+$$;
+
+REVOKE ALL ON FUNCTION public.reset_learner_password(text) FROM PUBLIC, anon, authenticated;
 REVOKE ALL ON FUNCTION public.set_cohort_password(integer, text) FROM PUBLIC, anon, authenticated;
 REVOKE ALL ON FUNCTION public.check_cohort_password(integer, text) FROM PUBLIC, anon, authenticated;
 REVOKE ALL ON FUNCTION public.gen_learner_id() FROM PUBLIC, anon, authenticated;

@@ -27,7 +27,7 @@ export default function PortfolioLanding() {
 
       <section className="gtp-steps">
         {[
-          ["01", "Sign in", "Pick your cohort, type your name and use your cohort password. That's it."],
+          ["01", "Sign in", "Pick your cohort and type your name. First time, use your cohort code and choose your own password."],
           ["02", "Log your work", "What you did, how you did it, hours, proof. Your summary updates itself."],
           ["03", "Level up", "Badges arrive on their own, based on the skills your work shows."],
           ["04", "Download", "One click gives you a PDF portfolio with your name, projects and badges."],
