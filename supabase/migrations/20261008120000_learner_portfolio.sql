@@ -223,3 +223,8 @@ REVOKE ALL ON FUNCTION public.reset_learner_password(text) FROM PUBLIC, anon, au
 REVOKE ALL ON FUNCTION public.set_cohort_password(integer, text) FROM PUBLIC, anon, authenticated;
 REVOKE ALL ON FUNCTION public.check_cohort_password(integer, text) FROM PUBLIC, anon, authenticated;
 REVOKE ALL ON FUNCTION public.gen_learner_id() FROM PUBLIC, anon, authenticated;
+-- The server (service role) calls these
+GRANT EXECUTE ON FUNCTION public.gen_learner_id() TO service_role;
+GRANT EXECUTE ON FUNCTION public.check_cohort_password(integer, text) TO service_role;
+GRANT EXECUTE ON FUNCTION public.reset_learner_password(text) TO service_role;
+GRANT EXECUTE ON FUNCTION public.set_cohort_password(integer, text) TO service_role;
