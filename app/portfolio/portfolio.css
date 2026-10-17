@@ -256,3 +256,38 @@
 .gtp-learner-head h2 { font-size: 28px; }
 .gtp-learner-head p { margin: 2px 0 0; font-weight: 600; }
 .gtp-signin-form select { cursor: pointer; }
+
+/* ---------- Staff view (/portfolio/admin) ---------- */
+.gtp-admin { display: flex; flex-direction: column; gap: 18px; }
+.gtp-admin-head { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 12px; }
+.gtp-admin-head h1 { margin: 0; }
+.gtp-admin-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+.gtp-admin-tabs button { font: inherit; font-weight: 600; font-size: 14px; padding: 6px 14px; border: 2px solid var(--ink); border-radius: 999px; background: #fff; cursor: pointer; }
+.gtp-admin-tabs button span { opacity: .55; margin-left: 4px; }
+.gtp-admin-tabs button.is-on { background: var(--ink); color: var(--cream); }
+.gtp-admin-stats { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
+.gtp-admin-stat { background: #fff; border: 2px solid var(--ink); border-radius: 16px; padding: 14px 16px; box-shadow: 3px 3px 0 var(--ink); display: flex; flex-direction: column; }
+.gtp-admin-stat b { font-size: 30px; line-height: 1.1; }
+.gtp-admin-stat span { font-size: 13px; color: #6b6255; }
+.gtp-admin-stat:nth-child(2) { background: var(--yellow); }
+.gtp-admin-notice { background: var(--paper); border: 2px dashed var(--ink); border-radius: 12px; padding: 10px 14px; margin: 0; cursor: pointer; }
+.gtp-admin-section h2 { margin: 0 0 12px; font-size: 22px; }
+.gtp-admin-section-head { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; }
+.gtp-admin-section-head h2 { margin: 0; }
+.gtp-admin-controls { display: flex; gap: 8px; flex-wrap: wrap; }
+.gtp-admin-controls input, .gtp-admin-controls select { font: inherit; font-size: 14px; padding: 7px 12px; border: 2px solid var(--ink); border-radius: 10px; background: #fff; }
+.gtp-admin-table-wrap { overflow-x: auto; }
+.gtp-admin-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.gtp-admin-table th { text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: #6b6255; padding: 6px 10px; border-bottom: 2px solid var(--ink); white-space: nowrap; }
+.gtp-admin-table td { padding: 10px; border-bottom: 1px solid #e8dcc6; vertical-align: top; }
+.gtp-admin-table td small { display: block; color: #6b6255; font-size: 12px; }
+.gtp-admin-table td a { color: var(--ink); }
+.gtp-admin-table td.is-active { color: #1d7a3a; font-weight: 600; }
+.gtp-admin-table td.is-idle { color: var(--orange-deep); }
+.gtp-admin-feed { list-style: none; margin: 0; padding: 0; }
+.gtp-admin-feed li { padding: 10px 0; border-bottom: 1px solid #e8dcc6; }
+.gtp-admin-feed li:last-child { border-bottom: 0; }
+.gtp-admin-feed a { color: var(--ink); }
+.gtp-admin-feed small { display: block; color: #6b6255; font-size: 12px; margin-top: 2px; }
+@media (max-width: 960px) { .gtp-admin-stats { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 600px) { .gtp-admin-stats { grid-template-columns: repeat(2, 1fr); } }
