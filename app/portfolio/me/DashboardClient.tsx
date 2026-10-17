@@ -73,6 +73,7 @@ export default function DashboardClient({
   const [unlocks, setUnlocks] = useState<Unlock[]>([]);
   const [copied, setCopied] = useState(false);
   const [summaryVersion, setSummaryVersion] = useState(0);
+  const [changingPassword, setChangingPassword] = useState(false);
 
   async function logout() {
     if (!demo) await sb.auth.signOut();
@@ -153,6 +154,11 @@ export default function DashboardClient({
           <button className="gtp-link" onClick={() => setEditingProfile(true)}>
             Edit profile
           </button>
+          {demo ? null : (
+            <button className="gtp-link" onClick={() => setChangingPassword(true)}>
+              Change password
+            </button>
+          )}
           <button className="gtp-link" onClick={logout}>
             {demo ? "Exit demo" : "Log out"}
           </button>
@@ -211,6 +217,8 @@ export default function DashboardClient({
         />
       ) : null}
 
+      {changingPassword ? <PasswordForm onClose={() => setChangingPassword(false)} /> : null}
+
       {unlocks.length ? (
         <div className="gtp-modal-bg" onClick={() => setUnlocks([])}>
           <div className="gtp-unlock" onClick={(e) => e.stopPropagation()}>
@@ -231,6 +239,78 @@ export default function DashboardClient({
         </div>
       ) : null}
     </>
+  );
+}
+
+function PasswordForm({ onClose }: { onClose: () => void }) {
+  const [current, setCurrent] = useState("");
+  const [next, setNext] = useState("");
+  const [again, setAgain] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [done, setDone] = useState(false);
+
+  async function submit(e: React.FormEvent) {
+    e.preventDefault();
+    if (next !== again) return setError("The two new passwords don't match.");
+    setBusy(true);
+    setError(null);
+    const res = await fetch("/api/portfolio/password", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ current_password: current, new_password: next }),
+    }).catch(() => null);
+    const data = res ? await res.json().catch(() => ({})) : {};
+    setBusy(false);
+    if (!res?.ok) return setError(data.error ?? "Couldn't change your password. Check your connection and try again.");
+    setDone(true);
+  }
+
+  return (
+    <div className="gtp-modal-bg" onClick={onClose}>
+      <form className="gtp-modal gtp-form" onSubmit={submit} onClick={(e) => e.stopPropagation()}>
+        <div className="gtp-modal-head">
+          <h2>Change password</h2>
+          <button type="button" className="gtp-icon-btn" onClick={onClose} aria-label="Close">
+            ✕
+          </button>
+        </div>
+        {done ? (
+          <>
+            <p>Done! Use your new password next time you sign in.</p>
+            <div className="gtp-form-actions">
+              <button type="button" className="gtp-btn gtp-btn-orange" onClick={onClose}>
+                OK
+              </button>
+            </div>
+          </>
+        ) : (
+          <>
+            <label>
+              Current password
+              <input type="password" required autoComplete="current-password" value={current} onChange={(e) => setCurrent(e.target.value)} />
+            </label>
+            <label>
+              New password (at least 8 characters)
+              <input type="password" required minLength={8} autoComplete="new-password" value={next} onChange={(e) => setNext(e.target.value)} />
+            </label>
+            <label>
+              New password again
+              <input type="password" required minLength={8} autoComplete="new-password" value={again} onChange={(e) => setAgain(e.target.value)} />
+            </label>
+            {error ? <p className="gtp-error">{error}</p> : null}
+            <div className="gtp-form-actions">
+              <button type="button" className="gtp-btn gtp-btn-ghost" onClick={onClose}>
+                Cancel
+              </button>
+              <button className="gtp-btn gtp-btn-orange" disabled={busy}>
+                {busy ? "Saving…" : "Change password"}
+              </button>
+            </div>
+          </>
+        )}
+      </form>
+    </div>
   );
 }
 
