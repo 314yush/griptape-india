@@ -4,8 +4,6 @@ import { GLYPHS, SEAL, type Glyph } from "./Badge";
 import {
   OUTCOME_BY_KEY,
   STAGES,
-  gripPoints,
-  levelFor,
   milestones,
   outcomeProgress,
   summaryFor,
@@ -69,8 +67,7 @@ function PdfBadge({ glyph, color, locked, tier }: { glyph: Glyph; color: string;
 function PortfolioDoc({ profile, entries, url }: { profile: Profile; entries: Entry[]; url: string }) {
   const progress = outcomeProgress(entries);
   const marks = milestones(entries).filter((m) => m.earned);
-  const points = gripPoints(entries);
-  const level = levelFor(points);
+  const badgeCount = progress.filter((p) => p.tier > 0).length + marks.length;
   const generated = new Date().toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" });
 
   return (
@@ -88,10 +85,6 @@ function PortfolioDoc({ profile, entries, url }: { profile: Profile; entries: En
 
         <View style={s.row}>
           <View style={s.stat}>
-            <Text style={s.statNum}>{entries.length}</Text>
-            <Text style={s.statLbl}>Entries</Text>
-          </View>
-          <View style={s.stat}>
             <Text style={s.statNum}>{Math.round(totalHours(entries))}</Text>
             <Text style={s.statLbl}>Hours invested</Text>
           </View>
@@ -100,8 +93,8 @@ function PortfolioDoc({ profile, entries, url }: { profile: Profile; entries: En
             <Text style={s.statLbl}>Shipped</Text>
           </View>
           <View style={[s.stat, { marginRight: 0, backgroundColor: C.yellow }]}>
-            <Text style={s.statNum}>Lv {level.level}</Text>
-            <Text style={s.statLbl}>{level.name} · {points} pts</Text>
+            <Text style={s.statNum}>{badgeCount}</Text>
+            <Text style={s.statLbl}>Badges earned</Text>
           </View>
         </View>
 

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { createAdminClient } from "@/lib/supabase-admin";
 import { isAdmin } from "@/lib/portfolio/admin";
-import { gripPoints, levelFor, outcomeProgress, totalHours, type Entry, type Profile } from "@/lib/portfolio/outcomes";
+import { milestones, outcomeProgress, totalHours, type Entry, type Profile } from "@/lib/portfolio/outcomes";
 import AdminClient, { type LearnerRow, type RecentEntry } from "./AdminClient";
 import AdminLogin from "./AdminLogin";
 
@@ -33,7 +33,7 @@ export default async function AdminPage() {
       const t = (e as Entry & { created_at?: string }).created_at ?? e.entry_date;
       return !max || t > max ? t : max;
     }, null);
-    const level = levelFor(gripPoints(mine));
+    const progress = outcomeProgress(mine);
     return {
       learner_id: p.learner_id,
       full_name: p.full_name,
@@ -44,8 +44,8 @@ export default async function AdminPage() {
       entries: mine.length,
       shipped: mine.filter((e) => e.stage === "shipped").length,
       hours: totalHours(mine),
-      level: `Lv ${level.level} · ${level.name}`,
-      skills: outcomeProgress(mine).filter((o) => o.count > 0).length,
+      badges: progress.filter((o) => o.tier > 0).length + milestones(mine).filter((m) => m.earned).length,
+      skills: progress.filter((o) => o.count > 0).length,
       lastActive,
       needsReset: !p.password_set,
     };

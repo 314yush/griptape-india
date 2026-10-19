@@ -20,18 +20,16 @@ type Shape =
 
 /** Glyph line art in a 100×100 box. Shared with the PDF so both draw the same badge. */
 export const GLYPHS: Record<Glyph, Shape[]> = {
+  // arrow launching off from a starting point
+  agency: [{ cx: 36, cy: 64, r: 5 }, { d: "M40 60 L64 36", w: 5 }, { d: "M50 35 H65 V50", w: 5 }],
   // magnifier with a spark
   critical: [{ cx: 46, cy: 46, r: 12 }, { d: "M55 55 L66 66" }, { d: "M46 40 V46 H51", w: 3.5 }],
   // mountain with a flag at the top
   grit: [{ d: "M30 66 L46 40 L54 52 L59 45 L70 66 Z", fill: true }, { d: "M46 40 V28 L55 31 L46 34", w: 3.5 }],
   // puzzle piece
   problem: [{ d: "M35 38 H45 a5 5 0 1 1 10 0 H65 V48 a5 5 0 1 0 0 10 V66 H35 Z", fill: true }],
-  // three people
-  community: [{ cx: 50, cy: 39, r: 6 }, { cx: 36, cy: 47, r: 5 }, { cx: 64, cy: 47, r: 5 }, { d: "M40 66 a10 10 0 0 1 20 0 M28 64 a8 8 0 0 1 12 -7 M72 64 a8 8 0 0 0 -12 -7" }],
   // speech bubble
   communication: [{ d: "M32 36 H68 V58 H48 L38 66 V58 H32 Z", fill: true }, { d: "M40 45 H60 M40 51 H54", w: 3.5 }],
-  // heart in a house
-  citizenship: [{ d: "M32 48 L50 32 L68 48 V67 H32 Z" }, { d: "M50 62 c-8 -5 -10 -9 -7 -12 c2 -2 5 -1 7 2 c2 -3 5 -4 7 -2 c3 3 1 7 -7 12 Z", fill: true, w: 3 }],
   first: [{ d: "M44 38 L52 32 V66" }, { d: "M42 66 H62" }],
   hours: [{ cx: 50, cy: 50, r: 16 }, { d: "M50 41 V50 L57 55" }],
   ship: [{ d: "M31 50 L68 33 L59 67 L50 55 Z", fill: true }, { d: "M50 55 L68 33" }],

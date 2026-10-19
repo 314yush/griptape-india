@@ -29,7 +29,7 @@ export default function PortfolioLanding() {
         {[
           ["01", "Sign in", "Pick your cohort and type your name. First time, use your cohort code and choose your own password."],
           ["02", "Log your work", "What you did, how you did it, hours, proof. Your summary updates itself."],
-          ["03", "Level up", "Badges arrive on their own, based on the skills your work shows."],
+          ["03", "Earn badges", "Badges arrive on their own, based on the skills your work shows."],
           ["04", "Download", "One click gives you a PDF portfolio with your name, projects and badges."],
         ].map(([n, t, d]) => (
           <div key={n} className="gtp-step">
@@ -41,7 +41,7 @@ export default function PortfolioLanding() {
       </section>
 
       <section className="gtp-outcomes">
-        <h2>Six skills. Five levels each.</h2>
+        <h2>Five GripTape skills. Each badge grows as you use it.</h2>
         <div className="gtp-outcome-grid">
           {OUTCOMES.map((o, i) => (
             <div key={o.key} className="gtp-outcome" style={{ transform: `rotate(${[-2, 1.5, -1][i % 3]}deg)` }}>

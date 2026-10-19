@@ -1,12 +1,10 @@
 "use client";
 
-import { useMemo, useState, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import Badge from "./Badge";
 import {
   OUTCOME_BY_KEY,
   STAGES,
-  gripPoints,
-  levelFor,
   milestones,
   formatDate,
   outcomeProgress,
@@ -27,83 +25,6 @@ function initials(name: string) {
 }
 
 
-function Heatmap({ entries }: { entries: Entry[] }) {
-  const { weeks, months } = useMemo(() => {
-    const byDay = new Map<string, number>();
-    entries.forEach((e) =>
-      byDay.set(
-        e.entry_date,
-        (byDay.get(e.entry_date) ?? 0) + Number(e.hours || 0) + 1,
-      ),
-    );
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const start = new Date(today);
-    start.setDate(start.getDate() - 7 * 52 - start.getDay());
-    const weeks: { date: string; v: number }[][] = [];
-    const months: { label: string; col: number }[] = [];
-    const cur = new Date(start);
-    let lastMonth = -1;
-    while (cur <= today) {
-      const week: { date: string; v: number }[] = [];
-      for (let d = 0; d < 7; d++) {
-        const key = `${cur.getFullYear()}-${String(cur.getMonth() + 1).padStart(2, "0")}-${String(cur.getDate()).padStart(2, "0")}`;
-        week.push({ date: cur <= today ? key : "", v: byDay.get(key) ?? 0 });
-        if (d === 0 && cur.getMonth() !== lastMonth) {
-          lastMonth = cur.getMonth();
-          months.push({
-            label: cur.toLocaleString("en", { month: "short" }),
-            col: weeks.length,
-          });
-        }
-        cur.setDate(cur.getDate() + 1);
-      }
-      weeks.push(week);
-    }
-    return { weeks, months };
-  }, [entries]);
-
-  const shade = (v: number) =>
-    v === 0 ? 0 : v < 4 ? 1 : v < 12 ? 2 : v < 30 ? 3 : 4;
-
-  return (
-    <div className="gtp-heat">
-      <div className="gtp-heat-scroll">
-        <div
-          className="gtp-heat-months"
-          style={{ gridTemplateColumns: `repeat(${weeks.length}, 12px)` }}
-        >
-          {months.map((m) => (
-            <span key={`${m.label}-${m.col}`} style={{ gridColumn: m.col + 1 }}>
-              {m.label}
-            </span>
-          ))}
-        </div>
-        <div className="gtp-heat-grid">
-          {weeks.map((w, i) => (
-            <div key={i} className="gtp-heat-col">
-              {w.map((d, j) => (
-                <span
-                  key={j}
-                  className={`gtp-heat-cell s${shade(d.v)}`}
-                  title={d.date && d.v ? `${formatDate(d.date)}` : undefined}
-                />
-              ))}
-            </div>
-          ))}
-        </div>
-      </div>
-      <div className="gtp-heat-legend">
-        Less{" "}
-        {[0, 1, 2, 3, 4].map((s) => (
-          <span key={s} className={`gtp-heat-cell s${s}`} />
-        ))}{" "}
-        More
-      </div>
-    </div>
-  );
-}
-
 export default function ProfileView({
   profile,
   entries,
@@ -123,8 +44,6 @@ export default function ProfileView({
   const [tab, setTab] = useState<"work" | "badges">("work");
   const progress = outcomeProgress(entries);
   const marks = milestones(entries);
-  const points = gripPoints(entries);
-  const level = levelFor(points);
   const hours = Math.round(totalHours(entries));
   const earnedCount =
     progress.filter((p) => p.tier > 0).length +
@@ -163,28 +82,7 @@ export default function ProfileView({
               {profile.cohort ? <li>🎒 {profile.cohort}</li> : null}
             </ul>
 
-            <div className="gtp-level">
-              <div className="gtp-level-row">
-                <strong>
-                  Lv {level.level} · {level.name}
-                </strong>
-                <span>{points} pts</span>
-              </div>
-              <div className="gtp-level-bar">
-                <span style={{ width: `${level.pct}%` }} />
-              </div>
-              <small>
-                {level.next
-                  ? `${level.next.at - points} pts to ${level.next.name}`
-                  : "Top level reached"}
-              </small>
-            </div>
-
             <div className="gtp-stats">
-              <div>
-                <b>{entries.length}</b>
-                <span>entries</span>
-              </div>
               <div>
                 <b>{hours}</b>
                 <span>hours</span>
@@ -228,7 +126,7 @@ export default function ProfileView({
                 className={tab === "work" ? "on" : ""}
                 onClick={() => setTab("work")}
               >
-                My work <em>{entries.length}</em>
+                My work
               </button>
               <button
                 role="tab"
@@ -319,8 +217,8 @@ export default function ProfileView({
             <div className="gtp-badge-board">
               <h3>Skill badges</h3>
               <p className="gtp-muted">
-                Tick a skill on an entry to grow it. Levels unlock at{" "}
-                {TIERS.map((t) => t.at).join(", ")} entries.
+                Badges grow as your work shows the skill:{" "}
+                {TIERS.map((t) => `${t.name} at ${t.at}`).join(", ")}.
               </p>
               <div className="gtp-badge-grid">
                 {progress.map((p) => (
@@ -342,7 +240,7 @@ export default function ProfileView({
                     </span>
                     <small>
                       “{p.outcome.short}” ·{" "}
-                      {p.next ? `${p.next} more to level up` : "maxed out"}
+                      {p.next ? `${p.next} more to upgrade` : "maxed out"}
                     </small>
                   </div>
                 ))}
@@ -368,11 +266,6 @@ export default function ProfileView({
               </div>
             </div>
           )}
-
-          <div className="gtp-card gtp-activity">
-            <h3 className="gtp-side-title">Activity · last 12 months</h3>
-            <Heatmap entries={entries} />
-          </div>
         </section>
       </div>
     </>

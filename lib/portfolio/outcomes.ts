@@ -1,14 +1,8 @@
-// Skill badges, based on the skills Reap Benefit uses on Solve Ninja profiles.
+// Skill badges: the GripTape skills a learner's work shows.
 // (Code calls them "outcomes"; the DB column is portfolio_entries.outcomes.)
 // Edit names, prompts or thresholds here; the dashboard, public profile and PDF all read from this file.
 
-export type OutcomeKey =
-  | "critical"
-  | "grit"
-  | "problem"
-  | "community"
-  | "communication"
-  | "citizenship";
+export type OutcomeKey = "agency" | "problem" | "grit" | "communication" | "critical";
 
 export type Outcome = {
   key: OutcomeKey;
@@ -20,12 +14,11 @@ export type Outcome = {
 };
 
 export const OUTCOMES: Outcome[] = [
-  { key: "critical", name: "Critical Thinking", short: "I question & adapt", prompt: "Did you question an idea, test it, and change course?", color: "#7FC8A9" },
-  { key: "grit", name: "Grit", short: "I keep going", prompt: "Did you keep going when it got hard, slow or boring?", color: "#C3A6F2" },
+  { key: "agency", name: "Agency", short: "I make it happen", prompt: "Did you decide something for yourself, take the first step, or make something happen without being told?", color: "#FF9F6B" },
   { key: "problem", name: "Problem Solving", short: "I find a way", prompt: "Did you figure out a way around something blocking you?", color: "#FDB927" },
-  { key: "community", name: "Community Collaboration", short: "I work with my people", prompt: "Did you work with others: your cohort, champion, or people you met?", color: "#F4A8B8" },
+  { key: "grit", name: "Grit", short: "I keep going", prompt: "Did you keep going when it got hard, slow or boring?", color: "#C3A6F2" },
   { key: "communication", name: "Communication", short: "I share my work", prompt: "Did you pitch, present, write or explain your work to someone?", color: "#5EC4C9" },
-  { key: "citizenship", name: "Citizenship", short: "I show up for others", prompt: "Did your work help people or a place beyond yourself?", color: "#FF9F6B" },
+  { key: "critical", name: "Critical Thinking", short: "I question & adapt", prompt: "Did you question an idea, test it, and change course?", color: "#7FC8A9" },
 ];
 
 export const OUTCOME_BY_KEY = Object.fromEntries(OUTCOMES.map((o) => [o.key, o])) as Record<
@@ -33,13 +26,13 @@ export const OUTCOME_BY_KEY = Object.fromEntries(OUTCOMES.map((o) => [o.key, o])
   Outcome
 >;
 
-/** Skill levels, L1 to L5, by how many entries used the skill. */
+/** Badge tiers, by how many entries showed the skill. Drawn as pips on the badge. */
 export const TIERS = [
-  { level: 1, name: "Level 1", at: 1 },
-  { level: 2, name: "Level 2", at: 3 },
-  { level: 3, name: "Level 3", at: 5 },
-  { level: 4, name: "Level 4", at: 8 },
-  { level: 5, name: "Level 5", at: 12 },
+  { level: 1, name: "Bronze", at: 1 },
+  { level: 2, name: "Silver", at: 3 },
+  { level: 3, name: "Gold", at: 5 },
+  { level: 4, name: "Platinum", at: 8 },
+  { level: 5, name: "Diamond", at: 12 },
 ] as const;
 
 export const AREAS = [
@@ -191,36 +184,6 @@ export function milestones(entries: Entry[]): Milestone[] {
   ];
 }
 
-/** Points that drive the level bar: effort (hours), reflection (outcome tags) and shipping. */
-export function gripPoints(entries: Entry[]) {
-  return Math.round(
-    entries.reduce(
-      (pts, e) =>
-        pts + 10 + Math.min(Number(e.hours || 0), 200) + 5 * (e.outcomes?.length ?? 0) + (e.stage === "shipped" ? 25 : 0),
-      0
-    )
-  );
-}
-
-export const LEVELS = [
-  { name: "Curious", at: 0 },
-  { name: "Explorer", at: 60 },
-  { name: "Maker", at: 180 },
-  { name: "Builder", at: 400 },
-  { name: "Trailblazer", at: 800 },
-];
-
-export function levelFor(points: number) {
-  let idx = 0;
-  LEVELS.forEach((l, i) => {
-    if (points >= l.at) idx = i;
-  });
-  const current = LEVELS[idx];
-  const next = LEVELS[idx + 1] ?? null;
-  const pct = next ? Math.min(100, ((points - current.at) / (next.at - current.at)) * 100) : 100;
-  return { level: idx + 1, name: current.name, next, pct };
-}
-
 function joinList(items: string[]) {
   if (items.length <= 1) return items.join("");
   return `${items.slice(0, -1).join(", ")} and ${items[items.length - 1]}`;
@@ -245,8 +208,8 @@ export function summaryFor(profile: Profile, entries: Entry[]) {
   const parts = [
     pursuit ? `${first} is working on ${lowerFirst(pursuit)}.` : `${first} is working on a project of their own.`,
     `Most recently: ${latest.title.replace(/[.!]+$/, "")}.`,
-    `Across ${entries.length} ${entries.length === 1 ? "piece" : "pieces"} of work and ${hours} ${hours === 1 ? "hour" : "hours"}${
-      shipped ? `, they've shipped ${shipped} ${shipped === 1 ? "project" : "projects"} for others to see` : ""
+    `They've put in ${hours} ${hours === 1 ? "hour" : "hours"} so far${
+      shipped ? ` and shipped ${shipped} ${shipped === 1 ? "project" : "projects"} for others to see` : ""
     }${strongest.length ? `, showing the most ${joinList(strongest)}` : ""}.`,
   ];
   return parts.join(" ");

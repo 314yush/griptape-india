@@ -2,12 +2,11 @@
 import { OUTCOMES, type Entry, type OutcomeKey } from "./outcomes";
 
 const KEYWORDS: Record<OutcomeKey, RegExp> = {
+  agency: /\b(decided|chose|started|launched|organi[sz]ed|led|took (the )?(lead|initiative|charge)|on my own|by myself|my own|reached out|asked|set up|planned|pitched)\w*/i,
   critical: /\b(test|tested|tried|changed|feedback|research|compare|question|analy[sz]|improv|iterat|mistake|realis|realiz|learned|why)\w*/i,
   grit: /\b(again|kept|keep going|practi[cs]e|every day|daily|weeks?|months?|despite|hard|difficult|failed|retry|didn'?t give up|stuck with)\w*/i,
   problem: /\b(fix|solv|bug|problem|figured out|workaround|solution|stuck|broke|issue|debug|sorted)\w*/i,
-  community: /\b(friend|team|cohort|champion|mentor|together|with my|helped me|group|collaborat|partner|classmates?)\w*/i,
   communication: /\b(present|pitch|post|posted|shared|wrote|explain|showcase|video|instagram|youtube|talk|told|blog|demo|poster)\w*/i,
-  citizenship: /\b(community|neighbou?r|volunteer|help(ed)? (others|people|kids)|environment|social|local|donat|street|village|public)\w*/i,
 };
 
 export function keywordSkills(e: Entry): OutcomeKey[] {

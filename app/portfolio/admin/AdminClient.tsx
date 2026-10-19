@@ -14,7 +14,7 @@ export type LearnerRow = {
   entries: number;
   shipped: number;
   hours: number;
-  level: string;
+  badges: number;
   skills: number;
   lastActive: string | null;
   needsReset: boolean;
@@ -43,9 +43,9 @@ function ago(iso: string | null) {
 }
 
 function toCsv(rows: LearnerRow[]) {
-  const head = ["Learner ID", "Name", "Cohort", "Pursuit", "Joined", "Entries", "Shipped", "Hours", "Level", "Skills", "Last active"];
+  const head = ["Learner ID", "Name", "Cohort", "Pursuit", "Joined", "Entries", "Shipped", "Hours", "Badges", "Skills", "Last active"];
   const q = (v: unknown) => `"${String(v ?? "").replace(/"/g, '""')}"`;
-  return [head, ...rows.map((r) => [r.learner_id, r.full_name, r.cohort, r.pursuit, r.joined.slice(0, 10), r.entries, r.shipped, r.hours, r.level, r.skills, r.lastActive?.slice(0, 10) ?? ""])]
+  return [head, ...rows.map((r) => [r.learner_id, r.full_name, r.cohort, r.pursuit, r.joined.slice(0, 10), r.entries, r.shipped, r.hours, r.badges, r.skills, r.lastActive?.slice(0, 10) ?? ""])]
     .map((row) => row.map(q).join(","))
     .join("\n");
 }
@@ -186,7 +186,7 @@ export default function AdminClient({
                   <th>Cohort</th>
                   <th>Entries</th>
                   <th>Hours</th>
-                  <th>Level</th>
+                  <th>Badges</th>
                   <th>Skills</th>
                   <th>Last active</th>
                   <th />
@@ -210,8 +210,8 @@ export default function AdminClient({
                       {r.shipped ? <small>{r.shipped} shipped</small> : null}
                     </td>
                     <td>{r.hours}</td>
-                    <td>{r.level}</td>
-                    <td>{r.skills}/6</td>
+                    <td>{r.badges}</td>
+                    <td>{r.skills}/5</td>
                     <td className={isActive(r) ? "is-active" : r.entries === 0 ? "is-idle" : ""}>{ago(r.lastActive)}</td>
                     <td>
                       {r.needsReset ? (
