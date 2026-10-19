@@ -45,7 +45,7 @@ export async function POST(request: Request) {
     const { error } = await session.auth.signInWithPassword({ email: learnerEmail(profile.learner_id), password });
     if (error) {
       return NextResponse.json(
-        { error: "That password isn't right. If you've forgotten it, ask your champion to reset it." },
+        { error: "That password isn't right. Check your name and cohort, and try again." },
         { status: 401 }
       );
     }

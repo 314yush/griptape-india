@@ -53,7 +53,7 @@ export default function AuthClient({ cohorts }: { cohorts: { id: number; name: s
           <p className="gtp-kicker">{choosing.isNew ? `Welcome, ${name.split(" ")[0]}!` : "Welcome back"}</p>
           <h1>Choose your password</h1>
           <p className="gtp-muted">
-            From now on you&apos;ll sign in with your cohort, your name and this password. Keep it to yourself.
+            From now on you&apos;ll sign in with your cohort, your name and this password. Pick one you&apos;ll remember, and don&apos;t forget it! Keep it to yourself.
           </p>
           <form onSubmit={submit} className="gtp-form gtp-signin-form">
             <label>
@@ -135,7 +135,7 @@ export default function AuthClient({ cohorts }: { cohorts: { id: number; name: s
         </form>
 
         <p className="gtp-auth-foot gtp-muted">
-          Use the same name every time. Forgot your password, or don&apos;t have a cohort code? Ask your champion.
+          Use the same name every time, and remember your password.
         </p>
       </div>
     </div>
