@@ -126,7 +126,7 @@ export default function ProfileView({
                 className={tab === "work" ? "on" : ""}
                 onClick={() => setTab("work")}
               >
-                My work
+                {renderEntryActions ? "My work" : "Work"}
               </button>
               <button
                 role="tab"

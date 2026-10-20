@@ -16,6 +16,7 @@ export default function PortfolioLayout({ children }: { children: React.ReactNod
           Griptape <em>portfolio</em>
         </Link>
         <div className="gtp-nav-links">
+          <Link href="/portfolio/learners">Student portfolios</Link>
           <Link href="/portfolio">How it works</Link>
           <Link href="/portfolio/me" className="gtp-btn gtp-btn-ink gtp-btn-sm">
             Sign in

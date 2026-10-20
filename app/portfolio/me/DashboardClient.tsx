@@ -151,6 +151,9 @@ export default function DashboardClient({
               {copied ? "Copied!" : "Copy link"}
             </button>
           )}
+          <a className="gtp-link" href="/portfolio/learners">
+            Everyone's work
+          </a>
           <button className="gtp-link" onClick={() => setEditingProfile(true)}>
             Edit profile
           </button>

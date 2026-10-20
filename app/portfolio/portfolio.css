@@ -220,7 +220,9 @@
 }
 @media (max-width: 600px) {
   .gtp-nav { padding: 12px 16px; }
-  .gtp-nav-links > a:first-child { display: none; }
+  .gtp-nav-links > a:nth-child(2) { display: none; }
+  .gtp-nav-links { gap: 12px; font-size: 14px; }
+  .gtp-brand em { display: none; }
   .gtp-wrap { padding: 20px 16px 60px; }
   .gtp-steps, .gtp-outcome-grid, .gtp-outcome-pick { grid-template-columns: 1fr; }
   .gtp-auth-card, .gtp-modal { padding: 22px; }
@@ -291,3 +293,22 @@
 .gtp-admin-feed small { display: block; color: #6b6255; font-size: 12px; margin-top: 2px; }
 @media (max-width: 960px) { .gtp-admin-stats { grid-template-columns: repeat(3, 1fr); } }
 @media (max-width: 600px) { .gtp-admin-stats { grid-template-columns: repeat(2, 1fr); } }
+
+/* student portfolios gallery */
+.gtp-back { display: inline-block; margin: 0 0 14px; font-weight: 600; text-decoration: none; }
+.gtp-back:hover { text-decoration: underline; text-underline-offset: 3px; }
+.gtp-learner-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 22px; }
+.gtp-learner-card { display: flex; flex-direction: column; gap: 14px; background: #fff; border: 2px solid var(--ink); border-radius: 20px; padding: 20px; box-shadow: 4px 4px 0 var(--ink); text-decoration: none; transition: transform .15s, box-shadow .15s; }
+.gtp-learner-card:hover { transform: translate(-2px, -2px); box-shadow: 7px 7px 0 var(--orange); }
+.gtp-learner-card-head { display: flex; align-items: center; gap: 14px; }
+.gtp-learner-card-head h2 { font-size: 22px; line-height: 1.15; }
+.gtp-learner-card-head p { margin: 2px 0 0; font-size: 13px; color: #6b6255; }
+.gtp-avatar.gtp-avatar-sm { width: 52px; height: 52px; margin: 0; flex: none; font-size: 19px; box-shadow: 2px 3px 0 var(--ink); }
+.gtp-learner-card-badges { display: flex; gap: 6px; flex-wrap: wrap; }
+.gtp-learner-card-work { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; flex: 1; }
+.gtp-learner-card-work li { font-weight: 600; padding: 7px 12px; background: var(--cream); border: 1.5px solid var(--ink); border-radius: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.gtp-learner-card-work li.gtp-muted { background: none; border: 0; padding: 0 2px; font-weight: 500; }
+.gtp-learner-card-foot { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; font-size: 13px; border-top: 2px dashed #e5dccb; padding-top: 12px; }
+.gtp-learner-card-foot b { font: 800 17px 'Bricolage Grotesque', sans-serif; }
+.gtp-learner-card-foot em { margin-left: auto; font-style: normal; font-weight: 700; color: var(--orange-deep); }
+@media (max-width: 600px) { .gtp-learner-grid { grid-template-columns: 1fr; } }

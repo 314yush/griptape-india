@@ -66,7 +66,7 @@ export default function HomePage() {
               <Link href="/blog">Magazine</Link>
             </li>
             <li>
-              <Link href="/projects">Projects</Link>
+              <Link href="/portfolio/learners">Student Portfolios</Link>
             </li>
           </ul>
           <details className="nav-mobile-menu">
@@ -89,7 +89,7 @@ export default function HomePage() {
                   <Link href="/blog">Magazine</Link>
                 </li>
                 <li>
-                  <Link href="/projects">Projects</Link>
+                  <Link href="/portfolio/learners">Student Portfolios</Link>
                 </li>
                 <li>
                   <a href="#stories">Stories</a>
