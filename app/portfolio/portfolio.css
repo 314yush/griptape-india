@@ -312,3 +312,21 @@
 .gtp-learner-card-foot b { font: 800 17px 'Bricolage Grotesque', sans-serif; }
 .gtp-learner-card-foot em { margin-left: auto; font-style: normal; font-weight: 700; color: var(--orange-deep); }
 @media (max-width: 600px) { .gtp-learner-grid { grid-template-columns: 1fr; } }
+
+/* project level + entry actions */
+.gtp-level-card { display: flex; align-items: center; gap: 14px; }
+.gtp-level-card .gtp-side-title { margin: 0 0 2px; }
+.gtp-level-card b { display: block; font: 800 18px 'Bricolage Grotesque', sans-serif; }
+.gtp-level-card small { color: #6b6255; }
+.gtp-learner-card-sep { width: 2px; align-self: stretch; background: #e5dccb; margin: 0 2px; }
+.gtp-learner-card-level { margin: -6px 0 0; font-size: 13px; font-weight: 700; }
+.gtp-entry-actions { align-items: center; flex-wrap: wrap; justify-content: flex-end; }
+.gtp-act { font: 600 13px 'Inter Tight', sans-serif; padding: 5px 11px; border: 2px solid var(--ink); border-radius: 999px; background: var(--cream); color: var(--ink); cursor: pointer; white-space: nowrap; }
+.gtp-act:hover { background: var(--yellow); }
+.gtp-act-danger { background: #E5484D; color: #fff; }
+.gtp-act-danger:hover { background: #c93b40; }
+.gtp-confirm-q { font-weight: 700; font-size: 13px; }
+@media (max-width: 600px) {
+  .gtp-entry header { flex-wrap: wrap; }
+  .gtp-entry-actions { width: 100%; justify-content: flex-start; }
+}

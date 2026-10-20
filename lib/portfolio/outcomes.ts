@@ -35,6 +35,15 @@ export const TIERS = [
   { level: 5, name: "Diamond", at: 12 },
 ] as const;
 
+/** Project badges: a separate badge for each level, by how many projects (entries) a learner has added. */
+export const PROJECT_LEVELS = [
+  { level: 1, name: "Starter", at: 1, color: "#FFD3B8" },
+  { level: 2, name: "Builder", at: 2, color: "#FFE08A" },
+  { level: 3, name: "Maker", at: 3, color: "#D9C8F7" },
+  { level: 4, name: "Creator", at: 5, color: "#9FDCDF" },
+  { level: 5, name: "Trailblazer", at: 8, color: "#A8DCC4" },
+] as const;
+
 export const AREAS = [
   "Art & Design",
   "Tech & Code",
@@ -97,6 +106,29 @@ export type Milestone = {
   glyph: "first" | "hours" | "ship" | "all" | "streak";
 };
 
+export type ProjectLevel = (typeof PROJECT_LEVELS)[number] & { earned: boolean; glyph: `level${1 | 2 | 3 | 4 | 5}` };
+
+export function projectLevels(entries: Entry[]): ProjectLevel[] {
+  return PROJECT_LEVELS.map((l) => ({ ...l, earned: entries.length >= l.at, glyph: `level${l.level}` as ProjectLevel["glyph"] }));
+}
+
+/** Highest project level reached (null before the first project), and how many more projects to the next. */
+export function projectLevel(entries: Entry[]) {
+  const levels = projectLevels(entries);
+  const current = levels.filter((l) => l.earned).pop() ?? null;
+  const next = levels.find((l) => !l.earned) ?? null;
+  return { current, next, toNext: next ? next.at - entries.length : 0 };
+}
+
+/** Every badge earned: skill badges, project badges and milestones. */
+export function badgeCount(entries: Entry[]) {
+  return (
+    outcomeProgress(entries).filter((p) => p.tier > 0).length +
+    projectLevels(entries).filter((l) => l.earned).length +
+    milestones(entries).filter((m) => m.earned).length
+  );
+}
+
 export function outcomeProgress(entries: Entry[]): OutcomeProgress[] {
   return OUTCOMES.map((outcome) => {
     const count = entries.filter((e) => e.outcomes?.includes(outcome.key)).length;
@@ -139,13 +171,6 @@ export function milestones(entries: Entry[]): Milestone[] {
   const hours = totalHours(entries);
   const progress = outcomeProgress(entries);
   return [
-    {
-      key: "first",
-      name: "First Mark",
-      detail: "Logged your first entry",
-      earned: entries.length >= 1,
-      glyph: "first",
-    },
     {
       key: "hours25",
       name: "25 Hours In",

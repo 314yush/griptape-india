@@ -5,6 +5,8 @@ import {
   OUTCOME_BY_KEY,
   STAGES,
   milestones,
+  badgeCount,
+  projectLevels,
   outcomeProgress,
   summaryFor,
   totalHours,
@@ -67,7 +69,8 @@ function PdfBadge({ glyph, color, locked, tier }: { glyph: Glyph; color: string;
 function PortfolioDoc({ profile, entries, url }: { profile: Profile; entries: Entry[]; url: string }) {
   const progress = outcomeProgress(entries);
   const marks = milestones(entries).filter((m) => m.earned);
-  const badgeCount = progress.filter((p) => p.tier > 0).length + marks.length;
+  const badges = badgeCount(entries);
+  const levels = projectLevels(entries);
   const generated = new Date().toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" });
 
   return (
@@ -93,7 +96,7 @@ function PortfolioDoc({ profile, entries, url }: { profile: Profile; entries: En
             <Text style={s.statLbl}>Shipped</Text>
           </View>
           <View style={[s.stat, { marginRight: 0, backgroundColor: C.yellow }]}>
-            <Text style={s.statNum}>{badgeCount}</Text>
+            <Text style={s.statNum}>{badges}</Text>
             <Text style={s.statLbl}>Badges earned</Text>
           </View>
         </View>
@@ -101,6 +104,17 @@ function PortfolioDoc({ profile, entries, url }: { profile: Profile; entries: En
         <Text style={s.h2}>Summary</Text>
         <View style={s.summary}>
           <Text style={s.body}>{profile.summary || summaryFor(profile, entries)}</Text>
+        </View>
+
+        <Text style={s.h2}>Project badges</Text>
+        <View style={[s.row, { flexWrap: "wrap" }]}>
+          {levels.map((l) => (
+            <View key={l.level} style={s.badge}>
+              <PdfBadge glyph={l.glyph} color={l.color} locked={!l.earned} tier={0} />
+              <Text style={s.badgeName}>{l.name}</Text>
+              <Text style={s.badgeTier}>{l.earned ? `Level ${l.level}` : `${l.at} projects`}</Text>
+            </View>
+          ))}
         </View>
 
         <Text style={s.h2}>Skill badges</Text>

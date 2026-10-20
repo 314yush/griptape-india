@@ -8,6 +8,7 @@ import {
   STAGES,
   milestones,
   outcomeProgress,
+  projectLevels,
   summaryFor,
   type Entry,
   type Profile,
@@ -43,6 +44,11 @@ function newUnlocks(before: Entry[], after: Entry[]): Unlock[] {
   const out: Unlock[] = outcomeProgress(after)
     .filter((p, i) => p.tier > prev[i].tier)
     .map((p) => ({ name: p.outcome.name, sub: p.tierName!, glyph: p.outcome.key, color: p.outcome.color, tier: p.tier }));
+  const hadLevels = projectLevels(before).filter((l) => l.earned).length;
+  projectLevels(after)
+    .filter((l) => l.earned)
+    .slice(hadLevels)
+    .forEach((l) => out.unshift({ name: `Level ${l.level}: ${l.name}`, sub: "Project badge", glyph: l.glyph, color: l.color, tier: 0 }));
   const had = new Set(milestones(before).filter((m) => m.earned).map((m) => m.key));
   milestones(after)
     .filter((m) => m.earned && !had.has(m.key))
@@ -74,6 +80,7 @@ export default function DashboardClient({
   const [copied, setCopied] = useState(false);
   const [summaryVersion, setSummaryVersion] = useState(0);
   const [changingPassword, setChangingPassword] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
 
   async function logout() {
     if (!demo) await sb.auth.signOut();
@@ -89,7 +96,7 @@ export default function DashboardClient({
   }
 
   async function deleteEntry(entry: Entry) {
-    if (!confirm(`Delete “${entry.title}”? This can't be undone.`)) return;
+    setConfirmDelete(null);
     if (demo) {
       const rest = entries.filter((e) => e.id !== entry.id);
       setEntries(rest);
@@ -180,23 +187,35 @@ export default function DashboardClient({
             <PdfButton profile={profile} entries={entries} />
           </div>
         }
-        renderEntryActions={(e) => (
+        renderEntryActions={(e) =>
+          confirmDelete === e.id ? (
+            <>
+              <span className="gtp-confirm-q">Delete this?</span>
+              <button className="gtp-act gtp-act-danger" onClick={() => deleteEntry(e)}>
+                Yes, delete
+              </button>
+              <button className="gtp-act" onClick={() => setConfirmDelete(null)}>
+                Keep
+              </button>
+            </>
+          ) : (
           <>
             <button
-              className="gtp-icon-btn"
+              className="gtp-act"
               aria-label="Edit entry"
               onClick={() => {
                 const { id, user_id, ...draft } = e;
                 setEntryForm({ id, draft: { ...draft, area: draft.area ?? "", how_i_did_it: draft.how_i_did_it ?? "", what_i_learned: draft.what_i_learned ?? "", evidence_url: draft.evidence_url ?? "" } });
               }}
             >
-              ✎
+              ✎ Edit
             </button>
-            <button className="gtp-icon-btn" aria-label="Delete entry" onClick={() => deleteEntry(e)}>
-              ✕
+            <button className="gtp-act" aria-label="Delete entry" onClick={() => setConfirmDelete(e.id)}>
+              🗑 Delete
             </button>
           </>
-        )}
+          )
+        }
         emptyState={
           <div className="gtp-empty">
             <span className="mascot-img gtp-empty-mascot" aria-hidden />

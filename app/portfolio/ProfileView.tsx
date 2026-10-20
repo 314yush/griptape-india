@@ -6,6 +6,9 @@ import {
   OUTCOME_BY_KEY,
   STAGES,
   milestones,
+  badgeCount,
+  projectLevel,
+  projectLevels,
   formatDate,
   outcomeProgress,
   TIERS,
@@ -45,9 +48,9 @@ export default function ProfileView({
   const progress = outcomeProgress(entries);
   const marks = milestones(entries);
   const hours = Math.round(totalHours(entries));
-  const earnedCount =
-    progress.filter((p) => p.tier > 0).length +
-    marks.filter((m) => m.earned).length;
+  const earnedCount = badgeCount(entries);
+  const levels = projectLevels(entries);
+  const { current: level, next: nextLevel, toNext } = projectLevel(entries);
 
   return (
     <>
@@ -91,6 +94,24 @@ export default function ProfileView({
                 <b>{earnedCount}</b>
                 <span>badges</span>
               </div>
+            </div>
+          </div>
+
+          <div className="gtp-card gtp-level-card">
+            <Badge
+              glyph={(level ?? levels[0]).glyph}
+              color={(level ?? levels[0]).color}
+              locked={!level}
+              size={70}
+              title={level ? `Level ${level.level}: ${level.name}` : "Level 1 locked"}
+            />
+            <div>
+              <h3 className="gtp-side-title">Projects</h3>
+              <b>{level ? `Level ${level.level} · ${level.name}` : "No level yet"}</b>
+              <small>
+                {entries.length} {entries.length === 1 ? "project" : "projects"}
+                {nextLevel ? ` · ${toNext} more for Level ${nextLevel.level}` : " · top level!"}
+              </small>
             </div>
           </div>
 
@@ -215,6 +236,21 @@ export default function ProfileView({
             )
           ) : (
             <div className="gtp-badge-board">
+              <h3>Project badges</h3>
+              <p className="gtp-muted">A new badge for every level. The more projects you add, the higher you go.</p>
+              <div className="gtp-badge-grid">
+                {levels.map((l) => (
+                  <div key={l.level} className={`gtp-badge-tile${l.earned ? "" : " locked"}`}>
+                    <Badge glyph={l.glyph} color={l.color} locked={!l.earned} size={96} title={`Level ${l.level}: ${l.name}`} />
+                    <b>{l.name}</b>
+                    <span className="gtp-badge-tier">Level {l.level}</span>
+                    <small>
+                      {l.at} {l.at === 1 ? "project" : "projects"}
+                      {l.earned ? " ✓" : ` · ${l.at - entries.length} to go`}
+                    </small>
+                  </div>
+                ))}
+              </div>
               <h3>Skill badges</h3>
               <p className="gtp-muted">
                 Badges grow as your work shows the skill:{" "}

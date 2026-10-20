@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { createClient } from "@supabase/supabase-js";
 import Badge from "../Badge";
-import { milestones, outcomeProgress, totalHours, type Entry } from "@/lib/portfolio/outcomes";
+import { badgeCount, outcomeProgress, projectLevel, totalHours, type Entry } from "@/lib/portfolio/outcomes";
 
 export const metadata: Metadata = {
   title: "Student portfolios",
@@ -104,7 +104,8 @@ export default async function LearnersPage({ searchParams }: { searchParams: { c
           {shown.map((l) => {
             const work = byLearner.get(l.user_id)!;
             const progress = outcomeProgress(work);
-            const badges = progress.filter((p) => p.tier > 0).length + milestones(work).filter((m) => m.earned).length;
+            const badges = badgeCount(work);
+            const level = projectLevel(work).current!;
             return (
               <Link key={l.user_id} href={`/portfolio/u/${l.learner_id}`} className="gtp-learner-card">
                 <div className="gtp-learner-card-head">
@@ -115,6 +116,8 @@ export default async function LearnersPage({ searchParams }: { searchParams: { c
                   </div>
                 </div>
                 <div className="gtp-learner-card-badges">
+                  <Badge glyph={level.glyph} color={level.color} size={40} title={`Level ${level.level}: ${level.name}`} />
+                  <span className="gtp-learner-card-sep" aria-hidden />
                   {progress.map((p) => (
                     <Badge
                       key={p.outcome.key}
@@ -133,6 +136,9 @@ export default async function LearnersPage({ searchParams }: { searchParams: { c
                   ))}
                   {work.length > 3 ? <li className="gtp-muted">+ {work.length - 3} more</li> : null}
                 </ul>
+                <p className="gtp-learner-card-level">
+                  Level {level.level} · {level.name}
+                </p>
                 <div className="gtp-learner-card-foot">
                   <span>
                     <b>{work.length}</b> {work.length === 1 ? "project" : "projects"}

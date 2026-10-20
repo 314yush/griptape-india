@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { createAdminClient } from "@/lib/supabase-admin";
 import { isAdmin } from "@/lib/portfolio/admin";
-import { milestones, outcomeProgress, totalHours, type Entry, type Profile } from "@/lib/portfolio/outcomes";
+import { badgeCount, outcomeProgress, totalHours, type Entry, type Profile } from "@/lib/portfolio/outcomes";
 import AdminClient, { type LearnerRow, type RecentEntry } from "./AdminClient";
 import AdminLogin from "./AdminLogin";
 
@@ -44,7 +44,7 @@ export default async function AdminPage() {
       entries: mine.length,
       shipped: mine.filter((e) => e.stage === "shipped").length,
       hours: totalHours(mine),
-      badges: progress.filter((o) => o.tier > 0).length + milestones(mine).filter((m) => m.earned).length,
+      badges: badgeCount(mine),
       skills: progress.filter((o) => o.count > 0).length,
       lastActive,
       needsReset: !p.password_set,

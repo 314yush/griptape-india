@@ -1,6 +1,6 @@
 import type { OutcomeKey } from "@/lib/portfolio/outcomes";
 
-export type Glyph = OutcomeKey | "first" | "hours" | "ship" | "all" | "streak";
+export type Glyph = OutcomeKey | "first" | "hours" | "ship" | "all" | "streak" | `level${1 | 2 | 3 | 4 | 5}`;
 
 // Scalloped sticker edge, computed once
 export const SEAL = (() => {
@@ -34,6 +34,12 @@ export const GLYPHS: Record<Glyph, Shape[]> = {
   hours: [{ cx: 50, cy: 50, r: 16 }, { d: "M50 41 V50 L57 55" }],
   ship: [{ d: "M31 50 L68 33 L59 67 L50 55 Z", fill: true }, { d: "M50 55 L68 33" }],
   streak: [{ d: "M50 68c-9 0-15-6-15-14 0-9 8-12 9-22 6 4 9 9 8 15 3-2 4-5 4-8 5 4 9 10 9 15 0 8-6 14-15 14Z", fill: true }],
+  // project levels: the level number
+  level1: [{ d: "M43 39 L52 32 V67", w: 6 }],
+  level2: [{ d: "M40 41 C40 30 60 30 60 41 C60 50 40 56 40 67 H61", w: 6 }],
+  level3: [{ d: "M40 33 H60 L49 46 C62 45 63 66 49 67 C44 67 41 65 39 62", w: 6 }],
+  level4: [{ d: "M55 67 V33 L38 56 H63", w: 6 }],
+  level5: [{ d: "M60 33 H43 L41 48 C46 44 61 44 61 56 C61 68 45 70 39 62", w: 6 }],
   all: [{ d: "M50 31 L55.6 44.2 L69.8 45.4 L59 54.8 L62.2 68.6 L50 61.2 L37.8 68.6 L41 54.8 L30.2 45.4 L44.4 44.2 Z", fill: true }],
 };
 
