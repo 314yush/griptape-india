@@ -71,7 +71,7 @@ export default async function LearnersPage({ searchParams }: { searchParams: { c
         <h1>Student portfolios</h1>
         <p className="gtp-lede">
           Young people across India picking one thing and making it real. Open any portfolio to see their projects, how
-          they made them and the badges they've earned.
+          they made them and the badges they&apos;ve earned.
         </p>
         {projectCount ? (
           <p className="gtp-projects-count">

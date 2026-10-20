@@ -159,7 +159,7 @@ export default function DashboardClient({
             </button>
           )}
           <a className="gtp-link" href="/portfolio/learners">
-            Everyone's work
+            Everyone&apos;s work
           </a>
           <button className="gtp-link" onClick={() => setEditingProfile(true)}>
             Edit profile
