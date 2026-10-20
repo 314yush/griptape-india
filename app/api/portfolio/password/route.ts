@@ -34,5 +34,11 @@ export async function POST(request: Request) {
     console.error("[portfolio/password] updateUserById", error);
     return NextResponse.json({ error: "Couldn't change your password. Please try again." }, { status: 500 });
   }
+  // Changing the password ends the user's sessions, so sign them straight back in
+  const { error: reErr } = await session.auth.signInWithPassword({ email: learnerEmail(profile.learner_id), password: next });
+  if (reErr) {
+    console.error("[portfolio/password] sign in after change", reErr);
+    return NextResponse.json({ error: "Your password is changed. Please sign in again with the new one." }, { status: 500 });
+  }
   return NextResponse.json({ ok: true });
 }
